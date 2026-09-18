@@ -611,7 +611,7 @@
           <span class="line">Abhimanyu</span>
           <span class="line grad-text">Kumar.</span>
         </h1>
-        <p class="hero-sub">Before I automated anything, I spent a year hardening a real production network by hand. That's where everything below actually comes from.</p>
+        <p class="hero-sub">Before I started building pipelines, I spent about a year hardening a real production network. Everything below grew out of that job.</p>
         <div class="hero-cta">
           <a class="btn btn-primary magnetic" href="#work">View work</a>
           <a class="btn btn-ghost magnetic" href="#contact">Get in touch</a>
@@ -625,7 +625,7 @@
       <div class="hero-inner">
         <span class="eyebrow">How I work</span>
         <h1 class="hero-title" style="font-size:clamp(32px,6vw,68px);">Security gated in.<br><span class="grad-text">Not bolted on.</span></h1>
-        <p class="hero-sub">That habit carried over into how I build pipelines now. A scanner isn't there to tick a box — it decides whether the deploy actually happens.</p>
+        <p class="hero-sub">That mindset carries into how I build pipelines now. If a scan flags something serious, the deploy doesn't go through.</p>
         <div class="hero-cta">
           <a class="btn btn-ghost magnetic" href="#work">See how ↓</a>
         </div>
@@ -752,9 +752,9 @@
         </figure>
       </div>
       <div class="reveal">
-        <p>I've spent 12+ months working in infrastructure, network security, and SOC operations, and I just finished a <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC in Pune. Right now most of my time goes into building DevSecOps pipelines that actually get deployed — wiring up secret detection, SAST, container and DAST scanning, policy gates, and AI-assisted triage, then following it through to something running in the cloud instead of leaving it as a diagram.</p>
-        <p>Before that, I was the IT Executive responsible for hardening a real production network for over thirty people — segmentation, Wi-Fi security, patch management, least-privilege access, and the kind of backup strategy nobody appreciates until they need it. SecureFlow grew directly out of that year. I'd already seen what happens when security gets added to a pipeline after the fact, so I decided to build the gate myself instead.</p>
-        <p class="about-aside">My PGCP-ITISS mentor is Manu Zacharia. He founded c0c0n, India's international hacking and infosec conference, and built Matriux, one of Asia's first penetration-testing distributions. Before any of that he served in the Indian Air Force, and he's been in this field for over twenty years since. One habit of his stuck with me: think like the attacker first, then decide what to gate. It shows up in both SecureFlow and SentryVault.</p>
+        <p>I've spent about a year working in IT infrastructure, network security, and SOC operations, and I just completed a <b style="color:var(--text)">PGCP-ITISS</b> program at C-DAC in Pune. These days most of my time goes into building DevSecOps pipelines — secret detection, SAST, container and DAST scanning, policy gates, AI-assisted triage — and actually deploying them, not just designing them on paper.</p>
+        <p>Before that, I worked as an IT Executive at Sonsolite Infra and Power Solutions, managing network security for a team of 30+ people — segmentation, Wi-Fi hardening, patch management, access control, and backups. SecureFlow came out of that job. I kept seeing security get bolted onto a pipeline only after something went wrong, so I built one where it's part of the pipeline from the start.</p>
+        <p class="about-aside">My mentor at C-DAC is Manu Zacharia, who's been in this field for over 20 years and founded c0c0n, India's hacking and infosec conference. The one thing that stuck with me from him: think like the attacker before you decide what to block. It's the whole idea behind SecureFlow and SentryVault.</p>
       </div>
     </div>
     <div class="stat-row reveal">
@@ -805,7 +805,7 @@
             <a class="card-link" href="https://github.com/abhienix/SecureFlow" target="_blank" rel="noopener">Repo ↗</a>
           </div>
         </div>
-        <p class="desc">Most teams treat security scanning as an afterthought in CI/CD, or cut it the moment it slows a release down. I built SecureFlow to gate it into the pipeline from day one, and ran it through more than 150 test pipeline executions to make sure it holds up under real use, not just in a demo.</p>
+        <p class="desc">SecureFlow is a CI/CD pipeline where security scanning isn't optional. Gitleaks, Semgrep, Trivy, and OWASP ZAP run on every commit, and a policy gate blocks the deploy if anything crosses a severity threshold. I've run it through 150+ test pipeline executions to make sure that actually holds up, not just in a demo.</p>
         <div class="proj-metrics">
           <div class="pm"><b>150+</b><span>Test pipeline runs</span></div>
           <div class="pm"><b>14</b><span>Tools chained</span></div>
@@ -897,7 +897,7 @@
           </div>
           <a class="card-link" href="https://github.com/abhienix/SentryVault" target="_blank" rel="noopener">Repo ↗</a>
         </div>
-        <p class="desc">Most security portfolios just show a scanner running. I wanted to show what it's actually defending, so this is a production-style, segmented multi-VM DMZ built to detect and react to a real attack — not describe one in a slide.</p>
+        <p class="desc">SentryVault is a segmented, multi-VM lab modeled on a bank's network — pfSense at the perimeter, Coraza WAF and Suricata NIDS at the DMZ edge, and Wazuh SIEM wired to a SOAR script that auto-quarantines an IP the moment an alert crosses High or Critical.</p>
         <div class="proj-metrics">
           <div class="pm"><b>8</b><span>Tools chained</span></div>
           <div class="pm"><b>3</b><span>Layers: perimeter/detection/response</span></div>
@@ -1055,7 +1055,7 @@
       <div class="more-card reveal">
         <h4>WordWeaver</h4>
         <div class="tag-strip">Authorized password-profiling wordlist generator</div>
-        <p>I rebuilt the classic CUPP tool from the ground up — no pip dependencies, a Markov n-gram model I trained myself, weighted leetspeak, keyboard-adjacency typo simulation. It refuses to run without an explicit <code class="mono">--consent</code> flag. That's not an oversight.</p>
+        <p>A rebuild of the classic CUPP wordlist tool with no pip dependencies. I trained my own Markov n-gram model and added weighted leetspeak and keyboard-adjacency typo simulation. It won't run without an explicit <code class="mono">--consent</code> flag — that part's intentional.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2b3038,#0d1117)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></span><span>CLI + Web UI</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#f2b84b,#c98a1e)"><svg viewBox="0 0 24 24" fill="none" stroke="#2b1900" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span>Consent-gated</span></div>
@@ -1066,7 +1066,7 @@
       <div class="more-card reveal">
         <h4>AI Red Flag Detector</h4>
         <div class="tag-strip">Hybrid phishing &amp; threat analysis · MCA final year</div>
-        <p>A heuristic engine running entirely client-side — Levenshtein typo-squat detection, locale-aware OCR — catches most phishing attempts in roughly no time at all. Only the genuinely ambiguous cases get escalated to Groq/Llama 3.3 70B, which is most of why the API bill stays down by up to 80%.</p>
+        <p>A client-side heuristic engine — Levenshtein typo-squat detection, locale-aware OCR — catches most phishing attempts instantly. Only the ambiguous cases get sent to Groq/Llama 3.3 70B, which keeps the API cost down by around 80%.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="#04110e"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span>Groq / Llama 3.3</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>OCR</span></div>
@@ -1078,7 +1078,7 @@
       <div class="more-card reveal">
         <h4>MedHelp Symptom Navigator</h4>
         <div class="tag-strip">Offline rural healthcare triage · BCA final year</div>
-        <p>It checks RED symptoms before YELLOW or GREEN, on purpose — worst case first. GPS SOS goes out over plain SMS, there's a CPR metronome timed to WHO tempo, a 2G IVR simulator, seven languages, and — deliberately — zero backend, zero AI. Some problems don't need either.</p>
+        <p>Checks RED symptoms before YELLOW or GREEN — worst case first. It sends GPS SOS over plain SMS, has a CPR metronome timed to WHO tempo, a 2G IVR simulator, and support for seven languages. No backend, no AI — it needed to work offline, so I kept it that way.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#ff3b3b,#9c1414)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>Facility lookup</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 3-2.2M19 13a10 10 0 0 0-2-1.7M12 20h.01"/></svg></span><span>Offline-first</span></div>
