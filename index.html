@@ -103,7 +103,9 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:18px 24px;
     backdrop-filter:blur(10px);
-    background:linear-gradient(to bottom, var(--nav-fade-strong), transparent);
+    -webkit-backdrop-filter:blur(10px);
+    background:var(--nav-fade-strong);
+    border-bottom:1px solid var(--border);
   }
   .logo{font-family:"Bricolage Grotesque";font-weight:700;font-size:18px;display:inline-block;animation:logoIn .6s cubic-bezier(.2,.8,.2,1) both .1s;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
   .logo:hover{transform:scale(1.08) rotate(-2deg);}
