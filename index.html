@@ -275,27 +275,6 @@
   section.section > *{position:relative;z-index:1;}
   h2.h{font-size:clamp(30px,4.4vw,46px);letter-spacing:-.015em;margin-top:14px;}
 
-  /* pinned section-title reveal — Experience/Work/Certs headings pin briefly
-     and scale/fade in as you scroll into them (same idea as the hero's
-     scene crossfade), then release so the real content below is never
-     pinned or clipped. JS drives opacity/transform via scroll progress. */
-  .pin-title-wrap{position:relative;height:150vh;}
-  .pin-title-stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
-  .pin-title-glow{position:absolute;top:50%;left:0;width:480px;height:480px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle, rgba(var(--a-rgb),.14), transparent 70%);pointer-events:none;filter:blur(6px);}
-  .pin-title-stage .eyebrow, .pin-title-stage .h{position:relative;z-index:1;will-change:opacity,transform;}
-  @media (max-width:760px){
-    .pin-title-wrap{height:auto;}
-    .pin-title-stage{position:relative;height:auto;padding:8px 0;display:block;}
-    .pin-title-glow{display:none;}
-    .pin-title-stage .eyebrow, .pin-title-stage .h{opacity:1 !important;transform:none !important;}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .pin-title-wrap{height:auto;}
-    .pin-title-stage{position:relative;height:auto;display:block;}
-    .pin-title-glow{display:none;}
-    .pin-title-stage .eyebrow, .pin-title-stage .h{opacity:1 !important;transform:none !important;}
-  }
-
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
   .grid-2-about{grid-template-columns:290px 1fr;align-items:stretch;}
   .about-photo{margin:0;border-radius:0;overflow:hidden;border-left:3px solid var(--a);max-width:290px;width:100%;display:flex;flex-direction:column;}
@@ -787,13 +766,8 @@
   </section>
 
   <section id="experience" class="section">
-    <div class="pin-title-wrap">
-      <div class="pin-title-stage">
-        <div class="pin-title-glow" aria-hidden="true"></div>
-        <span class="eyebrow shimmer">Experience</span>
-        <h2 class="h no-split">Where the last two years went.</h2>
-      </div>
-    </div>
+    <span class="eyebrow shimmer reveal">Experience</span>
+    <h2 class="h reveal no-split">Where the last two years went.</h2>
     <div class="timeline">
       <div class="t-item reveal">
         <div class="t-when">Feb – Aug 2026</div>
@@ -815,13 +789,8 @@
   </section>
 
   <section id="work" class="section">
-    <div class="pin-title-wrap">
-      <div class="pin-title-stage">
-        <div class="pin-title-glow" aria-hidden="true"></div>
-        <span class="eyebrow shimmer">Work</span>
-        <h2 class="h no-split">Five things I actually shipped.</h2>
-      </div>
-    </div>
+    <span class="eyebrow shimmer reveal">Work</span>
+    <h2 class="h reveal no-split">Five things I actually shipped.</h2>
     <div class="work-list">
 
       <div class="card reveal tilt border-trail">
@@ -1121,13 +1090,8 @@
   </section>
 
   <section id="certs" class="section">
-    <div class="pin-title-wrap">
-      <div class="pin-title-stage">
-        <div class="pin-title-glow" aria-hidden="true"></div>
-        <span class="eyebrow shimmer">Certifications &amp; Education</span>
-        <h2 class="h no-split">On paper, too.</h2>
-      </div>
-    </div>
+    <span class="eyebrow shimmer reveal">Certifications &amp; Education</span>
+    <h2 class="h reveal no-split">On paper, too.</h2>
     <div class="badge-grid">
       <div class="badge badge-featured reveal">
         <div class="icon-tile" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="none" stroke="#04110e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
@@ -1390,34 +1354,6 @@
         crossSections.forEach(function(s){ ioSect.observe(s); });
       } else {
         crossSections.forEach(function(s){ s.classList.add('in'); });
-      }
-    }
-
-    // pinned section-title reveal (Experience/Work/Certs) — same scroll-progress
-    // technique as the hero's scene crossfade (direct style, not
-    // IntersectionObserver), so it can't get stuck the way the old whole-
-    // section fade did on mobile. Skipped outright on narrow/reduced-motion,
-    // where CSS already forces these fully visible with no pin.
-    if(!reduced && window.innerWidth > 760){
-      var pinTitleEls = Array.from(document.querySelectorAll('.pin-title-wrap')).map(function(wrap){
-        return { wrap: wrap, eyebrow: wrap.querySelector('.eyebrow'), heading: wrap.querySelector('.h') };
-      });
-      if(pinTitleEls.length){
-        var updatePinTitles = function(){
-          pinTitleEls.forEach(function(p){
-            var total = p.wrap.offsetHeight - window.innerHeight;
-            if(total <= 0) return;
-            var scrolled = -p.wrap.getBoundingClientRect().top;
-            var progress = Math.min(1, Math.max(0, scrolled/total));
-            var t = Math.min(1, progress/0.4);
-            var op = t, ty = 36*(1-t), sc = 0.96 + 0.04*t;
-            if(p.eyebrow){ p.eyebrow.style.opacity = op; p.eyebrow.style.transform = 'translateY('+ty+'px)'; }
-            if(p.heading){ p.heading.style.opacity = op; p.heading.style.transform = 'translateY('+ty+'px) scale('+sc+')'; }
-          });
-        };
-        window.addEventListener('scroll', updatePinTitles, { passive:true });
-        window.addEventListener('resize', updatePinTitles);
-        updatePinTitles();
       }
     }
 
