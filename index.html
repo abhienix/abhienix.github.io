@@ -30,7 +30,6 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
     position:relative;
   }
   ::selection{background:var(--a);color:#03231e;}
@@ -113,6 +112,12 @@
     pointer-events:none;}
   .cine-scene{position:absolute;inset:0;display:flex;align-items:center;padding:0 24px;z-index:2;transition:opacity .3s linear, transform .3s linear;}
   #sceneB{opacity:0;pointer-events:none;}
+  @media (max-width:700px){
+    /* on short/tall phone viewports the nav bar can overlap vertically-centered
+       content, so give the hero a guaranteed top clearance instead of relying
+       on centering alone */
+    .cine-scene{align-items:flex-start;padding-top:96px;}
+  }
   @media (prefers-reduced-motion: reduce){
     .cine{height:100vh;}
     .cine-stage{position:relative;}
@@ -1032,7 +1037,7 @@
       // scene B — a grid of glowing server-rack boxes on a dark reflective-ish floor,
       // offset to the right so it never sits directly behind the left-aligned copy
       var rackGroup = new THREE.Group();
-      rackGroup.position.x = 2.1;
+      rackGroup.position.x = window.innerWidth < 700 ? 0.9 : 2.1;
       var rackBoxGeo = new THREE.BoxGeometry(0.7,1.8,0.7);
       var rackBoxes = [];
       for(var rx=-1; rx<=2; rx++){
