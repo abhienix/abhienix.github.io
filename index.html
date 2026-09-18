@@ -178,13 +178,19 @@
   @keyframes dropline{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.01%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
   @media (prefers-reduced-motion: reduce){.scroll-cue .bar{animation:none;}}
 
-  /* spinning seal badge */
-  .badge-spin{position:absolute;top:128px;right:44px;width:112px;height:112px;z-index:3;animation:spinBadge 16s linear infinite;will-change:transform;}
+  /* spinning seal badge — a fixed dark disc regardless of theme, so it always
+     reads as a stamped seal instead of thin text floating over the scene */
+  .badge-spin{
+    position:absolute;top:128px;right:44px;width:112px;height:112px;z-index:3;
+    animation:spinBadge 16s linear infinite;will-change:transform;
+    border-radius:50%;background:radial-gradient(circle at 33% 28%, #1d222b, #0a0c10 72%);
+    box-shadow:0 10px 26px -10px rgba(0,0,0,.55), 0 0 0 1px rgba(94,234,212,.16), inset 0 1px 0 rgba(255,255,255,.07);
+  }
   .badge-spin:hover{animation-play-state:paused;}
   .badge-spin svg{width:100%;height:100%;overflow:visible;}
-  .badge-spin text{fill:var(--a);font-family:"JetBrains Mono",monospace;text-transform:uppercase;}
+  .badge-spin text{fill:#5eead4;font-family:"JetBrains Mono",monospace;text-transform:uppercase;}
   .badge-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-  .badge-center svg{width:26px;height:26px;color:var(--text);}
+  .badge-center svg{width:26px;height:26px;color:#f4f5f8;}
   @keyframes spinBadge{to{transform:rotate(360deg);}}
   @media (prefers-reduced-motion: reduce){.badge-spin{animation:none;}}
   @media (max-width:900px){.badge-spin{display:none;}}
@@ -1113,10 +1119,11 @@
     function sceneColors(){
       // the rack/floor stay dark-hardware-colored in both themes (so they read as
       // physical objects against a light page instead of washing out to near-white);
-      // only the glow accents (points, lines, emissive, lights) follow the theme.
+      // the globe/sphere point-dots also go dark-ink in light mode (crisper against
+      // a light page than pale teal specks) — only the pink ring stays as accent color.
       return isLightTheme()
-        ? { star:0x9aa0b0, teal:0x0d9488, pink:0xc0266f, boxBase:0x1c2029, floor:0x14171c, ambient:0xffffff }
-        : { star:0xffffff, teal:0x5eead4, pink:0xff5fa8, boxBase:0x14171d, floor:0x0c0e14, ambient:0x40405a };
+        ? { star:0x6b7280, dot:0x1c2029, teal:0x0d9488, pink:0xc0266f, boxBase:0x1c2029, floor:0x14171c, ambient:0xffffff }
+        : { star:0xffffff, dot:0x5eead4, teal:0x5eead4, pink:0xff5fa8, boxBase:0x14171d, floor:0x0c0e14, ambient:0x40405a };
     }
 
     // cinematic scroll intro — a wireframe globe that dissolves into a glowing
@@ -1165,10 +1172,10 @@
       }
       var gGeo = new THREE.BufferGeometry();
       gGeo.setAttribute('position', new THREE.BufferAttribute(gPos,3));
-      var globePts = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.055, map:dotTex, color:heroPal.teal, transparent:true, opacity:.85, depthWrite:false }));
+      var globePts = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.055, map:dotTex, color:heroPal.dot, transparent:true, opacity:.85, depthWrite:false }));
       globeGroup.add(globePts);
       // soft additive halo behind the sharp points — cheap fake-bloom
-      var globeGlow = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.32, map:dotTex, color:heroPal.teal, transparent:true, opacity:.16, depthWrite:false, blending:THREE.AdditiveBlending }));
+      var globeGlow = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.32, map:dotTex, color:heroPal.dot, transparent:true, opacity:.16, depthWrite:false, blending:THREE.AdditiveBlending }));
       globeGroup.add(globeGlow);
       var ringMeshes = [];
       for(var ri=0; ri<3; ri++){
@@ -1226,8 +1233,8 @@
       function applyHeroTheme(){
         var pal = sceneColors();
         stars.material.color.setHex(pal.star);
-        globePts.material.color.setHex(pal.teal);
-        globeGlow.material.color.setHex(pal.teal);
+        globePts.material.color.setHex(pal.dot);
+        globeGlow.material.color.setHex(pal.dot);
         ringMeshes.forEach(function(r){ r.material.color.setHex(pal.pink); });
         rackBoxes.forEach(function(b){
           b.material.color.setHex(pal.boxBase);
@@ -1336,10 +1343,10 @@
       }
       var ctGeo = new THREE.BufferGeometry();
       ctGeo.setAttribute('position', new THREE.BufferAttribute(ctPos,3));
-      var ctMat = new THREE.PointsMaterial({ size:.06, map:ctTex, color:ctPal.teal, transparent:true, opacity:.8, depthWrite:false });
+      var ctMat = new THREE.PointsMaterial({ size:.06, map:ctTex, color:ctPal.dot, transparent:true, opacity:.8, depthWrite:false });
       var ctSphere = new THREE.Points(ctGeo, ctMat);
       ctScene.add(ctSphere);
-      var ctGlow = new THREE.Points(ctGeo, new THREE.PointsMaterial({ size:.34, map:ctTex, color:ctPal.teal, transparent:true, opacity:.15, depthWrite:false, blending:THREE.AdditiveBlending }));
+      var ctGlow = new THREE.Points(ctGeo, new THREE.PointsMaterial({ size:.34, map:ctTex, color:ctPal.dot, transparent:true, opacity:.15, depthWrite:false, blending:THREE.AdditiveBlending }));
       ctScene.add(ctGlow);
 
       var ctRingGeo = new THREE.BufferGeometry().setFromPoints(
@@ -1351,8 +1358,8 @@
 
       function applyContactTheme(){
         var pal = sceneColors();
-        ctMat.color.setHex(pal.teal);
-        ctGlow.material.color.setHex(pal.teal);
+        ctMat.color.setHex(pal.dot);
+        ctGlow.material.color.setHex(pal.dot);
         ctRing.material.color.setHex(pal.pink);
       }
       document.addEventListener('ak:theme-changed', applyContactTheme);
