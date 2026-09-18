@@ -357,6 +357,19 @@
   .flow-diagram .fl-pulse{fill:var(--a);}
   .flow-diagram .fl-pulse.b{fill:var(--b);}
   @media (prefers-reduced-motion: reduce){.flow-diagram .fl-pulse{display:none;}}
+  /* each node briefly glows as the pulse reaches it — a staggered chase down
+     the whole path, so the flow reads as "live" rather than static logos */
+  .flow-diagram .fl-node{animation:flNodeGlow var(--flow-dur,6s) linear infinite;transform-box:fill-box;transform-origin:center;cursor:default;}
+  @keyframes flNodeGlow{
+    0%,11%,100%{filter:none;transform:scale(1);}
+    5%{filter:drop-shadow(0 0 6px var(--a)) brightness(1.25);transform:scale(1.08);}
+  }
+  .flow-diagram .fl-node:hover{filter:drop-shadow(0 0 6px var(--a)) brightness(1.2);}
+  @media (prefers-reduced-motion: reduce){.flow-diagram .fl-node{animation:none;}}
+  .proj-metrics{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;}
+  .proj-metrics .pm{font-family:"JetBrains Mono",monospace;}
+  .proj-metrics .pm b{display:block;font-size:19px;color:var(--a);font-weight:700;}
+  .proj-metrics .pm span{font-size:10.5px;color:var(--text-faint);letter-spacing:.03em;text-transform:uppercase;}
   .credit-note{margin-top:14px;font-size:12px;color:var(--text-faint);font-style:italic;}
 
   .work-sub{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;display:block;margin-top:60px;margin-bottom:6px;}
@@ -718,6 +731,11 @@
           </div>
         </div>
         <p class="desc">Security scanning usually gets bolted onto CI/CD after the fact, or skipped when it slows a release down — SecureFlow gates it into the pipeline instead, and I've validated it across 150+ test pipeline executions.</p>
+        <div class="proj-metrics">
+          <div class="pm"><b>150+</b><span>Test pipeline runs</span></div>
+          <div class="pm"><b>12</b><span>Tools chained</span></div>
+          <div class="pm"><b>4</b><span>Scan types: secret/SAST/container/DAST</span></div>
+        </div>
         <dl class="kv-grid">
           <div><dt>Pipeline</dt><dd>GitHub Actions / Jenkins runs Gitleaks, Semgrep, Trivy, and OWASP ZAP on every commit — secret, SAST, container, and runtime scanning — with a policy engine blocking deploys past severity thresholds.</dd></div>
           <div><dt>Dashboard</dt><dd>React dashboard streaming live scan results over WebSockets (FastAPI + PostgreSQL), deployed on GCP Cloud Run.</dd></div>
@@ -738,7 +756,7 @@
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#5b9bff,#2b62c9)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.1 4.5 4.5 0 0 0 7 18z"/></svg></span><span>GCP Cloud Run</span></div>
         </div>
         <div class="flow-panel">
-          <svg class="flow-diagram" viewBox="0 0 760 202" fill="none" aria-hidden="true">
+          <svg class="flow-diagram" viewBox="0 0 760 202" fill="none" aria-hidden="true" style="--flow-dur:7.5s">
             <defs>
               <linearGradient id="fgDark" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2b3038"/><stop offset="100%" stop-color="#0d1117"/></linearGradient>
               <linearGradient id="fgDocker" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2496ED"/><stop offset="100%" stop-color="#0b5ea8"/></linearGradient>
@@ -750,52 +768,52 @@
             <path class="fl-line" d="M50,32 L710,32 L710,95 L50,95 L50,142 L710,142"/>
 
             <!-- row 1: trigger + scan -->
-            <rect x="33" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:0s" x="33" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>GitHub Actions — triggers the pipeline on every push</title></rect>
             <g transform="translate(50,32) scale(0.8) translate(-12,-12)"><path fill="#fff" d="M8 5v14l11-7z"/></g>
             <text class="fl-label" x="50" y="76" text-anchor="middle">GH ACTIONS</text>
 
-            <rect x="165" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:.625s" x="165" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>Jenkins — alternate CI runner for on-prem builds</title></rect>
             <g transform="translate(182,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#d33833" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21M5.8 5.8l2.3 2.3M15.9 15.9l2.3 2.3M5.8 18.2l2.3-2.3M15.9 8.1l2.3-2.3"/></g>
             <text class="fl-label" x="182" y="76" text-anchor="middle">JENKINS</text>
 
-            <rect x="297" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:1.25s" x="297" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>Gitleaks — scans every commit for leaked secrets</title></rect>
             <g transform="translate(314,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#f2b84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="3.2"/><path d="M10.3 12.7L19 4"/><path d="M15.5 8.2l2.3 2.3"/><path d="M18 5.7l2.3 2.3"/></g>
             <text class="fl-label" x="314" y="76" text-anchor="middle">GITLEAKS</text>
 
-            <rect x="429" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:1.875s" x="429" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>Semgrep — static analysis (SAST) across the codebase</title></rect>
             <g transform="translate(446,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></g>
             <text class="fl-label" x="446" y="76" text-anchor="middle">SEMGREP</text>
 
-            <rect x="561" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:2.5s" x="561" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>Trivy — scans containers &amp; dependencies for CVEs</title></rect>
             <g transform="translate(578,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></g>
             <text class="fl-label" x="578" y="76" text-anchor="middle">TRIVY</text>
 
-            <rect x="693" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:3.125s" x="693" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"><title>OWASP ZAP — runtime DAST against the live app</title></rect>
             <g transform="translate(710,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></g>
             <text class="fl-label" x="710" y="76" text-anchor="middle">OWASP ZAP</text>
 
             <!-- row 2: build, serve, store, ai, deploy -->
-            <rect x="33" y="125" width="34" height="34" rx="10" fill="url(#fgDocker)"/>
+            <rect class="fl-node" style="animation-delay:3.75s" x="33" y="125" width="34" height="34" rx="10" fill="url(#fgDocker)"><title>Docker — containerizes the app once checks pass</title></rect>
             <g transform="translate(50,142) scale(0.8) translate(-12,-12)" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M2 14c0 3 2.5 5 6 5h6c4 0 8-2 8-7-1 .6-2 .8-3 .6"/></g>
             <text class="fl-label" x="50" y="186" text-anchor="middle">DOCKER</text>
 
-            <rect x="165" y="125" width="34" height="34" rx="10" fill="url(#fgFastAPI)"/>
+            <rect class="fl-node" style="animation-delay:4.375s" x="165" y="125" width="34" height="34" rx="10" fill="url(#fgFastAPI)"><title>FastAPI — backend streaming scan results over WebSockets</title></rect>
             <g transform="translate(182,142) scale(0.8) translate(-12,-12)"><path fill="#fff" d="M13 2L4 14h6l-1 8 9-12h-6z"/></g>
             <text class="fl-label" x="182" y="186" text-anchor="middle">FASTAPI</text>
 
-            <rect x="297" y="125" width="34" height="34" rx="10" fill="url(#fgReact)"/>
+            <rect class="fl-node" style="animation-delay:5s" x="297" y="125" width="34" height="34" rx="10" fill="url(#fgReact)"><title>React — dashboard showing live results</title></rect>
             <g transform="translate(314,142) scale(0.8) translate(-12,-12)" fill="none" stroke="#61dafb" stroke-width="1.5"><circle cx="12" cy="12" r="1.8" fill="#61dafb" stroke="none"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></g>
             <text class="fl-label" x="314" y="186" text-anchor="middle">REACT</text>
 
-            <rect x="429" y="125" width="34" height="34" rx="10" fill="url(#fgPG)"/>
+            <rect class="fl-node" style="animation-delay:5.625s" x="429" y="125" width="34" height="34" rx="10" fill="url(#fgPG)"><title>PostgreSQL — stores scan history &amp; findings</title></rect>
             <g transform="translate(446,142) scale(0.8) translate(-12,-12)" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="2.6"/><path d="M5 5v14c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V5"/><path d="M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></g>
             <text class="fl-label" x="446" y="186" text-anchor="middle">POSTGRES</text>
 
-            <rect x="561" y="125" width="34" height="34" rx="10" fill="url(#fgDark)"/>
+            <rect class="fl-node" style="animation-delay:6.25s" x="561" y="125" width="34" height="34" rx="10" fill="url(#fgDark)"><title>Ollama — local LLM suggests root-cause fixes</title></rect>
             <g transform="translate(578,142) scale(0.8) translate(-12,-12)" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="10" rx="3"/><circle cx="9" cy="12" r="1.2" fill="#a78bfa" stroke="none"/><circle cx="15" cy="12" r="1.2" fill="#a78bfa" stroke="none"/><path d="M12 7V4M9.5 4h5"/></g>
             <text class="fl-label" x="578" y="186" text-anchor="middle">OLLAMA</text>
 
-            <rect x="693" y="125" width="34" height="34" rx="10" fill="url(#fgGCP)"/>
+            <rect class="fl-node" style="animation-delay:6.875s" x="693" y="125" width="34" height="34" rx="10" fill="url(#fgGCP)"><title>GCP Cloud Run — deploys only if the policy gate passes</title></rect>
             <g transform="translate(710,142) scale(0.8) translate(-12,-12)" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.1 4.5 4.5 0 0 0 7 18z"/></g>
             <text class="fl-label" x="710" y="186" text-anchor="middle">CLOUD RUN</text>
 
@@ -816,6 +834,11 @@
           <a class="card-link" href="https://github.com/abhienix/SentryVault" target="_blank" rel="noopener">Repo ↗</a>
         </div>
         <p class="desc">Most security portfolios show a scanner. This is the perimeter it would be defending: a production-style, segmented multi-VM DMZ built to actually detect and react to an attack, not just describe one.</p>
+        <div class="proj-metrics">
+          <div class="pm"><b>7</b><span>Tools chained</span></div>
+          <div class="pm"><b>3</b><span>Layers: perimeter/detection/response</span></div>
+          <div class="pm"><b>2</b><span>Person security lab</span></div>
+        </div>
         <dl class="kv-grid">
           <div><dt>Perimeter</dt><dd>Segmented DMZ vs. internal network, Caddy reverse proxy, Coraza WAF (OWASP CRS), and Suricata NIDS enforcing zero-trust controls at the edge.</dd></div>
           <div><dt>Detection</dt><dd>Wazuh SIEM for real-time log ingestion, file-integrity monitoring, and alert correlation across a dual MySQL/PostgreSQL data layer.</dd></div>
@@ -831,38 +854,38 @@
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></svg></span><span>Caddy</span></div>
         </div>
         <div class="flow-panel">
-          <svg class="flow-diagram" viewBox="0 0 760 92" fill="none" aria-hidden="true">
+          <svg class="flow-diagram" viewBox="0 0 760 92" fill="none" aria-hidden="true" style="--flow-dur:5.6s">
             <defs>
               <linearGradient id="sgDark" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2a2f3a"/><stop offset="100%" stop-color="#14171d"/></linearGradient>
               <linearGradient id="sgPG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4a86b8"/><stop offset="100%" stop-color="#2c5478"/></linearGradient>
             </defs>
             <path class="fl-line" d="M50,32 L710,32"/>
 
-            <rect x="33" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:0s" x="33" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>Caddy — reverse proxy at the edge</title></rect>
             <g transform="translate(50,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></g>
             <text class="fl-label" x="50" y="76" text-anchor="middle">CADDY</text>
 
-            <rect x="143" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:.8s" x="143" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>Coraza WAF — OWASP CRS rules block malicious requests</title></rect>
             <g transform="translate(160,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#f2b84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></g>
             <text class="fl-label" x="160" y="76" text-anchor="middle">CORAZA</text>
 
-            <rect x="253" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:1.6s" x="253" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>Suricata NIDS — inspects traffic for intrusion patterns</title></rect>
             <g transform="translate(270,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.5" opacity=".55"/><circle cx="12" cy="12" r="10" opacity=".3"/></g>
             <text class="fl-label" x="270" y="76" text-anchor="middle">SURICATA</text>
 
-            <rect x="363" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:2.4s" x="363" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>Wazuh SIEM — correlates logs &amp; alerts in real time</title></rect>
             <g transform="translate(380,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
             <text class="fl-label" x="380" y="76" text-anchor="middle">WAZUH</text>
 
-            <rect x="473" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:3.2s" x="473" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>Python — SOAR script decides the response</title></rect>
             <g transform="translate(490,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#3776AB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4L4 12l4 8"/><path d="M16 4l4 8-4 8"/></g>
             <text class="fl-label" x="490" y="76" text-anchor="middle">PYTHON</text>
 
-            <rect x="583" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
+            <rect class="fl-node" style="animation-delay:4s" x="583" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"><title>iptables — auto-quarantines the offending IP</title></rect>
             <g transform="translate(600,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M9 4v6M15 10v5M9 15v5"/></g>
             <text class="fl-label" x="600" y="76" text-anchor="middle">IPTABLES</text>
 
-            <rect x="693" y="15" width="34" height="34" rx="10" fill="url(#sgPG)"/>
+            <rect class="fl-node" style="animation-delay:4.8s" x="693" y="15" width="34" height="34" rx="10" fill="url(#sgPG)"><title>MySQL/PostgreSQL — stores the incident record</title></rect>
             <g transform="translate(710,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="2.6"/><path d="M5 5v14c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V5"/><path d="M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></g>
             <text class="fl-label" x="710" y="76" text-anchor="middle">MYSQL/PG</text>
 
