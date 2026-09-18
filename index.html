@@ -770,44 +770,6 @@
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
 
-    // per-letter blur/slide reveal on the hero name — runs immediately (not
-    // gated behind the Three.js library load, which was the real cause of the
-    // laggy/jumbled first-load animation). Waits for webfonts so letters don't
-    // reflow mid-animation, and paced slower for a calmer, more deliberate feel.
-    if(!reduced){
-      var glitchEls = document.querySelectorAll('[data-glitch]');
-      function runHeroTextEffect(){
-        glitchEls.forEach(function(el, idx){
-          var text = el.getAttribute('data-glitch');
-          el.setAttribute('aria-label', text);
-          el.textContent = '';
-          Array.from(text).forEach(function(ch, i){
-            var span = document.createElement('span');
-            span.textContent = ch === ' ' ? ' ' : ch;
-            span.style.display = 'inline-block';
-            span.style.opacity = '0';
-                        span.style.transform = 'translateY(18px)';
-            span.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
-            span.style.transitionDelay = (idx*220 + i*55) + 'ms';
-            el.appendChild(span);
-          });
-        });
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){
-            document.querySelectorAll('[data-glitch] span').forEach(function(s){
-              s.style.opacity = '1'; s.style.transform = 'none';
-            });
-          });
-        });
-      }
-      if(document.fonts && document.fonts.ready){
-        document.fonts.ready.then(runHeroTextEffect);
-      } else {
-        runHeroTextEffect();
-      }
-    }
-
-
     // a faint drifting starfield fixed behind the whole page, so every section —
     // not just the cinematic intro — reads as part of the same night-sky world
     var bgCv = document.getElementById('bgStars');
