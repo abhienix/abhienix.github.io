@@ -18,6 +18,7 @@
     --b:#ff5fa8;
     --a-rgb:94,234,212;
     --b-rgb:255,95,168;
+    --bg-rgb:8,9,13;
     --grad: linear-gradient(100deg, var(--a), var(--b));
     --nav-fade-strong: rgba(8,9,13,.75);
     --shimmer-hi: #ffffff;
@@ -35,19 +36,14 @@
     --b:#c0266f;
     --a-rgb:13,148,136;
     --b-rgb:192,38,111;
+    --bg-rgb:246,246,243;
     --nav-fade-strong: rgba(246,246,243,.85);
     --shimmer-hi: #0a2e2a;
     color-scheme: light;
   }
-  /* the cinematic 3D sections (hero + closing scene) are deliberately dark space
-     visuals — they stay dark regardless of the light/dark toggle, by locking
-     their own copy of every token so nothing above can flip them */
-  .cine, .contact-scene{
-    --bg:#08090d; --surface:rgba(255,255,255,.04); --surface-solid:#101219;
-    --border:rgba(255,255,255,.09); --text:#f4f5f8; --text-dim:#9aa0b0;
-    --text-faint:#5c6272; --a:#5eead4; --b:#ff5fa8;
-    --a-rgb:94,234,212; --b-rgb:255,95,168; --shimmer-hi:#ffffff; color-scheme:dark;
-  }
+  /* the cinematic 3D sections (hero + closing scene) now follow the light/dark
+     toggle too — their Three.js particle/line/material colors are switched
+     live in the render script (search "theme-aware scene colors") */
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
@@ -141,8 +137,8 @@
   }
   #cineCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:saturate(1.2) contrast(1.05);}
   .hero-scrim{position:absolute;inset:0;z-index:1;background:
-    radial-gradient(ellipse 720px 560px at 38% 48%, rgba(8,9,13,.72), transparent 68%),
-    linear-gradient(90deg, rgba(8,9,13,.55) 0%, rgba(8,9,13,.15) 55%, transparent 78%);
+    radial-gradient(ellipse 720px 560px at 38% 48%, rgba(var(--bg-rgb),.72), transparent 68%),
+    linear-gradient(90deg, rgba(var(--bg-rgb),.55) 0%, rgba(var(--bg-rgb),.15) 55%, transparent 78%);
     pointer-events:none;}
   .cine-scene{position:absolute;inset:0;display:flex;align-items:center;padding:0 24px;z-index:2;transition:opacity .3s linear, transform .3s linear;}
   #sceneB{opacity:0;pointer-events:none;}
@@ -365,7 +361,7 @@
   /* contact — cinematic closing scene */
   .contact-scene{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:none;padding:80px 24px;background:var(--bg);}
   #contactCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:saturate(1.2) contrast(1.05);}
-  .contact-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 620px 460px at 50% 50%, rgba(8,9,13,.62), transparent 72%);pointer-events:none;}
+  .contact-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 620px 460px at 50% 50%, rgba(var(--bg-rgb),.62), transparent 72%);pointer-events:none;}
   .contact{text-align:center;position:relative;z-index:2;max-width:640px;margin:0 auto;}
   .contact h2{font-size:clamp(34px,6.4vw,62px);}
   .contact .btn-primary{margin-top:30px;padding:18px 34px;font-size:16px;}
@@ -869,8 +865,8 @@
     var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
 
     // dark/light theme toggle — dark is the default; light is opt-in and
-    // remembered per-visitor. The 3D scenes stay dark regardless (locked via
-    // their own scoped CSS variables), so only the page chrome switches.
+    // remembered per-visitor. The 3D scenes (hero + contact) also switch,
+    // via an 'ak:theme-changed' event the Three.js script listens for.
     (function(){
       var toggle = document.getElementById('themeToggle');
       if(!toggle) return;
@@ -887,6 +883,7 @@
           toggle.setAttribute('aria-pressed','false');
           toggle.setAttribute('aria-label','Switch to light mode');
         }
+        document.dispatchEvent(new CustomEvent('ak:theme-changed'));
       }
       apply(saved === 'light' ? 'light' : 'dark');
       toggle.addEventListener('click', function(){
@@ -1101,6 +1098,18 @@
   try{
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // theme-aware scene colors — the hero and contact Three.js scenes read
+    // this to match whichever theme is active, and re-read it live on toggle.
+    function isLightTheme(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
+    function sceneColors(){
+      // the rack/floor stay dark-hardware-colored in both themes (so they read as
+      // physical objects against a light page instead of washing out to near-white);
+      // only the glow accents (points, lines, emissive, lights) follow the theme.
+      return isLightTheme()
+        ? { star:0x9aa0b0, teal:0x0d9488, pink:0xc0266f, boxBase:0x1c2029, floor:0x14171c, ambient:0xffffff }
+        : { star:0xffffff, teal:0x5eead4, pink:0xff5fa8, boxBase:0x14171d, floor:0x0c0e14, ambient:0x40405a };
+    }
+
     // cinematic scroll intro — a wireframe globe that dissolves into a glowing
     // server-rack scene as you scroll, camera dollying through it. Built from
     // Three.js primitives (points, lines, boxes) — no external 3D assets.
@@ -1121,6 +1130,7 @@
         return new THREE.CanvasTexture(c);
       }
       var dotTex = dotTexture();
+      var heroPal = sceneColors();
 
       // ambient starfield, present throughout
       var starCount = 220, starPos = new Float32Array(starCount*3);
@@ -1131,7 +1141,7 @@
       }
       var starGeo = new THREE.BufferGeometry();
       starGeo.setAttribute('position', new THREE.BufferAttribute(starPos,3));
-      var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size:.05, map:dotTex, color:0xffffff, transparent:true, opacity:.45, depthWrite:false }));
+      var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size:.05, map:dotTex, color:heroPal.star, transparent:true, opacity:.45, depthWrite:false }));
       cScene.add(stars);
 
       // scene A — a wireframe globe (fibonacci point sphere + tilted great-circle rings)
@@ -1146,16 +1156,16 @@
       }
       var gGeo = new THREE.BufferGeometry();
       gGeo.setAttribute('position', new THREE.BufferAttribute(gPos,3));
-      var globePts = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.055, map:dotTex, color:0x5eead4, transparent:true, opacity:.85, depthWrite:false }));
+      var globePts = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.055, map:dotTex, color:heroPal.teal, transparent:true, opacity:.85, depthWrite:false }));
       globeGroup.add(globePts);
       // soft additive halo behind the sharp points — cheap fake-bloom
-      var globeGlow = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.32, map:dotTex, color:0x5eead4, transparent:true, opacity:.16, depthWrite:false, blending:THREE.AdditiveBlending }));
+      var globeGlow = new THREE.Points(gGeo, new THREE.PointsMaterial({ size:.32, map:dotTex, color:heroPal.teal, transparent:true, opacity:.16, depthWrite:false, blending:THREE.AdditiveBlending }));
       globeGroup.add(globeGlow);
       var ringMeshes = [];
       for(var ri=0; ri<3; ri++){
         var curvePts = new THREE.EllipseCurve(0,0,gR,gR,0,Math.PI*2,false,0).getPoints(80);
         var ringGeo = new THREE.BufferGeometry().setFromPoints(curvePts.map(function(p){ return new THREE.Vector3(p.x,p.y,0); }));
-        var ring = new THREE.Line(ringGeo, new THREE.LineBasicMaterial({ color:0xff5fa8, transparent:true, opacity:.18 }));
+        var ring = new THREE.Line(ringGeo, new THREE.LineBasicMaterial({ color:heroPal.pink, transparent:true, opacity:.18 }));
         ring.rotation.x = 0.5 + ri*0.9;
         ring.rotation.y = ri*1.1;
         globeGroup.add(ring); ringMeshes.push(ring);
@@ -1170,14 +1180,15 @@
       var rackBoxes = [];
       for(var rx=-1; rx<=2; rx++){
         for(var rz=0; rz<2; rz++){
-          var hue = (rx+rz)%2===0 ? 0x5eead4 : 0xff5fa8;
-          var rmat = new THREE.MeshStandardMaterial({ color:0x14171d, emissive:hue, emissiveIntensity:.9, roughness:.55, transparent:true, opacity:0 });
+          var isTeal = (rx+rz)%2===0;
+          var rmat = new THREE.MeshStandardMaterial({ color:heroPal.boxBase, emissive:isTeal?heroPal.teal:heroPal.pink, emissiveIntensity:.9, roughness:.55, transparent:true, opacity:0 });
           var rbox = new THREE.Mesh(rackBoxGeo, rmat);
           rbox.position.set(rx*1.05, -0.2, -rz*1.3 - 1.4);
+          rbox.userData.isTeal = isTeal;
           rackGroup.add(rbox); rackBoxes.push(rbox);
         }
       }
-      var floorMat = new THREE.MeshStandardMaterial({ color:0x0c0e14, roughness:.35, metalness:.4, transparent:true, opacity:0 });
+      var floorMat = new THREE.MeshStandardMaterial({ color:heroPal.floor, roughness:.35, metalness:.4, transparent:true, opacity:0 });
       var floorMesh = new THREE.Mesh(new THREE.PlaneGeometry(16,16), floorMat);
       floorMesh.rotation.x = -Math.PI/2; floorMesh.position.y = -1.15;
       rackGroup.add(floorMesh);
@@ -1191,16 +1202,35 @@
         bx.fillStyle=g; bx.fillRect(0,0,48,256);
         return new THREE.CanvasTexture(c);
       }
-      var beamMat = new THREE.MeshBasicMaterial({ map:beamTexture(), color:0x5eead4, transparent:true, opacity:0, side:THREE.DoubleSide, blending:THREE.AdditiveBlending, depthWrite:false });
+      var beamMat = new THREE.MeshBasicMaterial({ map:beamTexture(), color:heroPal.teal, transparent:true, opacity:0, side:THREE.DoubleSide, blending:THREE.AdditiveBlending, depthWrite:false });
       var beamMesh = new THREE.Mesh(new THREE.ConeGeometry(1.7, 5, 24, 1, true), beamMat);
       beamMesh.position.set(0, 2.3, -2.1);
       rackGroup.add(beamMesh);
 
       cScene.add(rackGroup);
 
-      cScene.add(new THREE.PointLight(0x5eead4, 2, 14).translateX(0).translateY(3).translateZ(2));
-      cScene.add(new THREE.PointLight(0xff5fa8, 1.4, 14).translateX(-3).translateY(2).translateZ(-2));
-      cScene.add(new THREE.AmbientLight(0x40405a, .55));
+      var heroLightA = new THREE.PointLight(heroPal.teal, 2, 14); heroLightA.translateX(0).translateY(3).translateZ(2);
+      var heroLightB = new THREE.PointLight(heroPal.pink, 1.4, 14); heroLightB.translateX(-3).translateY(2).translateZ(-2);
+      var heroAmbient = new THREE.AmbientLight(heroPal.ambient, .55);
+      cScene.add(heroLightA); cScene.add(heroLightB); cScene.add(heroAmbient);
+
+      function applyHeroTheme(){
+        var pal = sceneColors();
+        stars.material.color.setHex(pal.star);
+        globePts.material.color.setHex(pal.teal);
+        globeGlow.material.color.setHex(pal.teal);
+        ringMeshes.forEach(function(r){ r.material.color.setHex(pal.pink); });
+        rackBoxes.forEach(function(b){
+          b.material.color.setHex(pal.boxBase);
+          b.material.emissive.setHex(b.userData.isTeal ? pal.teal : pal.pink);
+        });
+        floorMat.color.setHex(pal.floor);
+        beamMat.color.setHex(pal.teal);
+        heroLightA.color.setHex(pal.teal);
+        heroLightB.color.setHex(pal.pink);
+        heroAmbient.color.setHex(pal.ambient);
+      }
+      document.addEventListener('ak:theme-changed', applyHeroTheme);
 
       function resizeCine(){
         var w = stageEl.clientWidth, h = stageEl.clientHeight;
@@ -1285,6 +1315,7 @@
         return new THREE.CanvasTexture(c);
       }
       var ctTex = ctDotTexture();
+      var ctPal = sceneColors();
 
       var ctN = 340, ctR = 2.4, ctPos = new Float32Array(ctN*3);
       for(var ci=0; ci<ctN; ci++){
@@ -1296,18 +1327,26 @@
       }
       var ctGeo = new THREE.BufferGeometry();
       ctGeo.setAttribute('position', new THREE.BufferAttribute(ctPos,3));
-      var ctMat = new THREE.PointsMaterial({ size:.06, map:ctTex, color:0x5eead4, transparent:true, opacity:.8, depthWrite:false });
+      var ctMat = new THREE.PointsMaterial({ size:.06, map:ctTex, color:ctPal.teal, transparent:true, opacity:.8, depthWrite:false });
       var ctSphere = new THREE.Points(ctGeo, ctMat);
       ctScene.add(ctSphere);
-      var ctGlow = new THREE.Points(ctGeo, new THREE.PointsMaterial({ size:.34, map:ctTex, color:0x5eead4, transparent:true, opacity:.15, depthWrite:false, blending:THREE.AdditiveBlending }));
+      var ctGlow = new THREE.Points(ctGeo, new THREE.PointsMaterial({ size:.34, map:ctTex, color:ctPal.teal, transparent:true, opacity:.15, depthWrite:false, blending:THREE.AdditiveBlending }));
       ctScene.add(ctGlow);
 
       var ctRingGeo = new THREE.BufferGeometry().setFromPoints(
         new THREE.EllipseCurve(0,0,ctR*1.35,ctR*1.35,0,Math.PI*2,false,0).getPoints(90).map(function(p){ return new THREE.Vector3(p.x,p.y,0); })
       );
-      var ctRing = new THREE.Line(ctRingGeo, new THREE.LineBasicMaterial({ color:0xff5fa8, transparent:true, opacity:.22 }));
+      var ctRing = new THREE.Line(ctRingGeo, new THREE.LineBasicMaterial({ color:ctPal.pink, transparent:true, opacity:.22 }));
       ctRing.rotation.x = 1.1;
       ctScene.add(ctRing);
+
+      function applyContactTheme(){
+        var pal = sceneColors();
+        ctMat.color.setHex(pal.teal);
+        ctGlow.material.color.setHex(pal.teal);
+        ctRing.material.color.setHex(pal.pink);
+      }
+      document.addEventListener('ak:theme-changed', applyContactTheme);
 
       function resizeContact(){
         var w = ctStage.clientWidth, h = ctStage.clientHeight;
