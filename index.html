@@ -267,7 +267,8 @@
   h2.h{font-size:clamp(30px,4.4vw,46px);letter-spacing:-.015em;margin-top:14px;}
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
-  .about-photo{margin-top:32px;border-radius:16px;overflow:hidden;border:1px solid var(--border);max-width:280px;}
+  .grid-2-about{grid-template-columns:240px 1fr;}
+  .about-photo{margin-top:0;border-radius:16px;overflow:hidden;border:1px solid var(--border);max-width:240px;}
   .about-photo .frame{width:100%;aspect-ratio:4/5;overflow:hidden;}
   .about-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;}
   .about-photo figcaption{padding:12px 14px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--text-faint);background:var(--surface);}
@@ -654,19 +655,20 @@
 
   <section id="about" class="section">
     <span class="sec-num">01</span>
-    <div class="grid-2">
+    <span class="eyebrow shimmer reveal">01 — About</span>
+    <h2 class="h reveal">From hardening real networks to hardening pipelines.</h2>
+    <div class="grid-2 grid-2-about">
       <div class="reveal">
-        <span class="eyebrow shimmer">01 — About</span>
-        <h2 class="h">From hardening real networks to hardening pipelines.</h2>
         <figure class="about-photo">
           <div class="frame"><img src="manu-zakaria.jpeg" alt="Abhimanyu Kumar with Manu Zacharia"></div>
           <figcaption>With <b>Manu Zacharia</b> — Information Security Evangelist, c0c0n conference &amp; PGCP-ITISS mentor</figcaption>
         </figure>
-        <p style="margin-top:14px;font-size:13.5px;line-height:1.55;color:var(--text-faint);max-width:280px;">Founder of <b style="color:var(--text-dim)">c0c0n</b>, India's international hacking &amp; information security conference, and creator of Matriux — one of Asia's first penetration-testing distros. Ex-Indian Air Force, 20+ years in the field. His push to think offense-first shaped how I approach defense.</p>
+        <p style="margin-top:14px;font-size:13px;line-height:1.55;color:var(--text-faint);max-width:240px;">Founder of <b style="color:var(--text-dim)">c0c0n</b> — India's international hacking &amp; infosec conference — and creator of Matriux, one of Asia's first pentesting distros. 20+ years in the field, ex-Indian Air Force.</p>
       </div>
       <div class="reveal">
         <p>Cybersecurity-focused IT professional with 12+ months of industry experience in infrastructure, network security, and SOC operations, and a completed <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune. I build DevSecOps CI/CD pipelines with real deployed tooling — secret detection, SAST, container and DAST scanning, policy-as-code gates, and AI-assisted triage — from architecture to live cloud deployment.</p>
         <p>Before that, I spent a year as an IT Executive hardening a company's actual production network for 30+ users — segmentation, Wi-Fi security, patch management, least-privilege access, backup strategy. That's the lens behind <b style="color:var(--text)">SecureFlow</b>: I've seen what happens when security gets bolted onto a pipeline after the fact instead of gated into it.</p>
+        <p>Manu Zacharia — my PGCP-ITISS mentor, pictured alongside me — pushed a simple habit into how I build: think like the attacker first, then decide what to gate. That's the instinct SecureFlow and SentryVault are both built around.</p>
       </div>
     </div>
     <div class="stat-row reveal">
