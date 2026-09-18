@@ -280,6 +280,8 @@
   .about-pipeline{color:var(--a);}
   @media (max-width:760px){.grid-2{grid-template-columns:1fr;gap:34px;}}
   .grid-2 p{color:var(--text-dim);max-width:52ch;}
+  .about-aside{border-left:2px solid var(--border);padding-left:16px;font-style:italic;color:var(--text-faint) !important;max-width:56ch !important;}
+  .about-aside b{font-style:normal;}
 
   .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px 28px;margin-top:52px;}
   .stat{border-top:1px solid var(--border);padding-top:14px;}
@@ -339,7 +341,7 @@
   .card-idx{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-faint);}
   .card h3{font-size:24px;margin-top:8px;}
   .card .tag-strip{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--a);margin-top:6px;}
-  .card p.desc{color:var(--text-dim);margin-top:14px;max-width:62ch;}
+  .card p.desc{color:var(--text-dim);margin-top:14px;max-width:62ch;font-size:17px;font-style:italic;line-height:1.55;}
   .card-link{
     font-size:13px;font-weight:600;border:1px solid var(--border);border-radius:99px;padding:9px 18px;white-space:nowrap;
   }
@@ -589,7 +591,7 @@
           <span class="line" data-glitch="Abhimanyu">Abhimanyu</span>
           <span class="line grad-text" data-glitch="Kumar.">Kumar.</span>
         </h1>
-        <p class="hero-sub">I secure infrastructure first, then automate that security into the pipeline — DevSecOps, CI/CD, and cloud, grounded in real IT-infra hardening, not just theory.</p>
+        <p class="hero-sub">I hardened a real production network with my own hands before I ever automated a pipeline. Everything below is built on that — not on a tutorial.</p>
         <div class="hero-cta">
           <a class="btn btn-primary magnetic" href="#work">View work</a>
           <a class="btn btn-ghost magnetic" href="#contact">Get in touch</a>
@@ -603,7 +605,7 @@
       <div class="hero-inner">
         <span class="eyebrow">How I work</span>
         <h1 class="hero-title" style="font-size:clamp(32px,6vw,68px);">Security gated in.<br><span class="grad-text">Not bolted on.</span></h1>
-        <p class="hero-sub">The same instinct that hardened a production network now gates every pipeline I build — scanners as checkpoints, not afterthoughts.</p>
+        <p class="hero-sub">Check first, trust later — that's the whole instinct. Every pipeline I build treats a scanner as a gate, never a formality bolted on at the end.</p>
         <div class="hero-cta">
           <a class="btn btn-ghost magnetic" href="#work">See how ↓</a>
         </div>
@@ -730,9 +732,9 @@
         </figure>
       </div>
       <div class="reveal">
-        <p>Cybersecurity-focused IT professional with 12+ months of industry experience in infrastructure, network security, and SOC operations, and a completed <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune. I build DevSecOps CI/CD pipelines with real deployed tooling — secret detection, SAST, container and DAST scanning, policy-as-code gates, and AI-assisted triage — from architecture to live cloud deployment.</p>
-        <p>Before that, I spent a year as an IT Executive hardening a company's actual production network for 30+ users — segmentation, Wi-Fi security, patch management, least-privilege access, backup strategy. That's the lens behind <b style="color:var(--text)">SecureFlow</b>: I've seen what happens when security gets bolted onto a pipeline after the fact instead of gated into it.</p>
-        <p><b style="color:var(--text)">Manu Zacharia</b> — founder of <b style="color:var(--text-dim)">c0c0n</b>, India's international hacking &amp; infosec conference, and creator of Matriux, one of Asia's first pentesting distros — is my PGCP-ITISS mentor. 20+ years in the field, ex-Indian Air Force, and the one who pushed a simple habit into how I build: think like the attacker first, then decide what to gate. That instinct is what SecureFlow and SentryVault are both built around.</p>
+        <p>Here's the short version: 12+ months in infrastructure, network security, and SOC work, then a <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune to put a name to what I'd already been doing. What I build now are DevSecOps pipelines with real tooling wired in — secret detection, SAST, container and DAST scanning, policy-as-code gates, AI-assisted triage — taken all the way from an architecture diagram to something actually running in the cloud.</p>
+        <p>Before any of that, I was the IT Executive hardening an actual production network for 30-plus people — segmentation, Wi-Fi security, patch management, least-privilege access, the backup strategy nobody thinks about until it's needed. That year is where <b style="color:var(--text)">SecureFlow</b> comes from. I've watched what happens when security gets bolted onto a pipeline after the fact instead of built into it, and I'd rather just build the gate.</p>
+        <p class="about-aside">My PGCP-ITISS mentor is <b style="color:var(--text)">Manu Zacharia</b>. He founded <b style="color:var(--text-dim)">c0c0n</b> — India's international hacking and infosec conference — and built Matriux, one of the first penetration-testing distros to come out of Asia, after a career that started in the Indian Air Force and has run 20-plus years since. One habit of his stuck with me: think like the attacker first, then decide what to gate. You'll find that instinct running through both SecureFlow and SentryVault.</p>
       </div>
     </div>
     <div class="stat-row reveal">
@@ -783,16 +785,16 @@
             <a class="card-link" href="https://github.com/abhienix/SecureFlow" target="_blank" rel="noopener">Repo ↗</a>
           </div>
         </div>
-        <p class="desc">Security scanning usually gets bolted onto CI/CD after the fact, or skipped when it slows a release down — SecureFlow gates it into the pipeline instead, and I've validated it across 150+ test pipeline executions.</p>
+        <p class="desc">Most teams bolt security scanning onto CI/CD as an afterthought, or drop it the moment it slows a release down. SecureFlow gates it into the pipeline from the start — I've pushed it through 150+ test runs to make sure that actually holds up, not just looks good in a demo.</p>
         <div class="proj-metrics">
           <div class="pm"><b>150+</b><span>Test pipeline runs</span></div>
           <div class="pm"><b>15</b><span>Tools chained</span></div>
           <div class="pm"><b>4</b><span>Scan types: secret/SAST/container/DAST</span></div>
         </div>
         <dl class="kv-grid">
-          <div><dt>Pipeline</dt><dd>GitHub Actions runs Gitleaks + Semgrep on checkout, builds the Docker image, then Trivy scans that image for CVEs before a policy gate (CVSS rules) decides whether Cloud Run deploy proceeds. A separate Celery worker runs OWASP ZAP against the live staging endpoint asynchronously.</dd></div>
-          <div><dt>Dashboard</dt><dd>React 19 dashboard streaming live results over WebSockets (sub-15ms) from a FastAPI + PostgreSQL + Redis backend on GCP Cloud Run.</dd></div>
-          <div><dt>AI layer</dt><dd>A separate air-gapped GPU server (FastAPI + ChromaDB RAG + Ollama running Qwen2.5 3B / DeepSeek 6.7B) suggests root-cause fixes, backed by a 590-line deterministic fallback for when the model is offline.</dd></div>
+          <div><dt>Pipeline</dt><dd>On checkout, GitHub Actions runs Gitleaks and Semgrep straight away. Then it builds the Docker image, hands that to Trivy for a CVE scan, and lets a policy gate (CVSS rules) decide if Cloud Run actually gets the deploy. Off to the side, a Celery worker runs OWASP ZAP against the live staging endpoint on its own schedule.</dd></div>
+          <div><dt>Dashboard</dt><dd>A React 19 dashboard pulls those results in live — sub-15ms over WebSockets — backed by FastAPI, PostgreSQL, and Redis, all sitting on GCP Cloud Run.</dd></div>
+          <div><dt>AI layer</dt><dd>Root-cause suggestions come from a separate, air-gapped GPU box — FastAPI, a ChromaDB RAG store, and Ollama running Qwen2.5 3B or DeepSeek 6.7B. If that machine's offline, a 590-line deterministic fallback still gets you an answer.</dd></div>
         </dl>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2b3038,#0d1117)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span>GitHub Actions</span></div>
@@ -875,16 +877,16 @@
           </div>
           <a class="card-link" href="https://github.com/abhienix/SentryVault" target="_blank" rel="noopener">Repo ↗</a>
         </div>
-        <p class="desc">Most security portfolios show a scanner. This is the perimeter it would be defending: a production-style, segmented multi-VM DMZ built to actually detect and react to an attack, not just describe one.</p>
+        <p class="desc">Most security portfolios just show you a scanner. I wanted to show you what that scanner is actually defending — so this is a production-style, segmented multi-VM DMZ, built to detect and react to a real attack instead of describing one in a slide.</p>
         <div class="proj-metrics">
           <div class="pm"><b>8</b><span>Tools chained</span></div>
           <div class="pm"><b>3</b><span>Layers: perimeter/detection/response</span></div>
           <div class="pm"><b>2</b><span>Person security lab</span></div>
         </div>
         <dl class="kv-grid">
-          <div><dt>Perimeter</dt><dd>pfSense as the central router (stateful inspection, NAT, inter-VLAN ACLs) segmenting WAN, DMZ, and internal subnets, with Caddy + Coraza WAF (OWASP CRS) and Suricata NIDS enforcing zero-trust controls at the DMZ edge.</dd></div>
-          <div><dt>Detection</dt><dd>Wazuh SIEM for real-time log ingestion, file-integrity monitoring, and alert correlation across a dual MySQL/PostgreSQL data layer.</dd></div>
-          <div><dt>Response</dt><dd>A Python SOAR script auto-quarantines offending IPs via iptables the moment an alert crosses High/Critical severity.</dd></div>
+          <div><dt>Perimeter</dt><dd>pfSense sits at the center as the router — stateful inspection, NAT, inter-VLAN ACLs — keeping WAN, DMZ, and internal subnets apart from each other. At the DMZ edge, Caddy and Coraza WAF (running OWASP CRS) plus Suricata NIDS enforce zero-trust before anything gets further in.</dd></div>
+          <div><dt>Detection</dt><dd>Wazuh SIEM watches everything in real time — log ingestion, file-integrity monitoring, alert correlation — writing across a MySQL and PostgreSQL data layer underneath.</dd></div>
+          <div><dt>Response</dt><dd>The moment an alert crosses High or Critical, a Python SOAR script doesn't wait on me — it quarantines the offending IP via iptables on its own.</dd></div>
         </dl>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#e05252,#a12921)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v6c0 5-3.5 8-8 9.5-4.5-1.5-8-4.5-8-9.5v-6z"/><path d="M9 12h6M12 9v6"/></svg></span><span>pfSense</span></div>
@@ -1014,7 +1016,7 @@
       <div class="more-card reveal">
         <h4>WordWeaver</h4>
         <div class="tag-strip">Authorized password-profiling wordlist generator</div>
-        <p>A from-scratch reimagining of the classic CUPP tool — zero pip dependencies, a trained Markov n-gram model, weighted leetspeak, and keyboard-adjacency typo simulation. Requires an explicit <code class="mono">--consent</code> flag to run.</p>
+        <p>I rebuilt the classic CUPP tool from the ground up — no pip dependencies, a Markov n-gram model I trained myself, weighted leetspeak, keyboard-adjacency typo simulation. It refuses to run without an explicit <code class="mono">--consent</code> flag. That's not an oversight.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2b3038,#0d1117)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg></span><span>CLI + Web UI</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#f2b84b,#c98a1e)"><svg viewBox="0 0 24 24" fill="none" stroke="#2b1900" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span>Consent-gated</span></div>
@@ -1025,7 +1027,7 @@
       <div class="more-card reveal">
         <h4>AI Red Flag Detector</h4>
         <div class="tag-strip">Hybrid phishing &amp; threat analysis · MCA final year</div>
-        <p>A client-side heuristic engine (Levenshtein typo-squat detection, locale-aware OCR) catches most attempts at ~0ms; ambiguous cases escalate to Groq/Llama 3.3 70B — cutting API cost by up to 80%.</p>
+        <p>A heuristic engine running entirely client-side — Levenshtein typo-squat detection, locale-aware OCR — catches most phishing attempts in roughly no time at all. Only the genuinely ambiguous cases get escalated to Groq/Llama 3.3 70B, which is most of why the API bill stays down by up to 80%.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="#04110e"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span>Groq / Llama 3.3</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>OCR</span></div>
@@ -1037,7 +1039,7 @@
       <div class="more-card reveal">
         <h4>MedHelp Symptom Navigator</h4>
         <div class="tag-strip">Offline rural healthcare triage · BCA final year</div>
-        <p>Worst-first symptom triage (RED checked before YELLOW/GREEN), GPS SOS over SMS, a WHO-tempo CPR metronome, a 2G IVR simulator, 7 languages — deliberately zero backend, zero AI.</p>
+        <p>It checks RED symptoms before YELLOW or GREEN, on purpose — worst case first. GPS SOS goes out over plain SMS, there's a CPR metronome timed to WHO tempo, a 2G IVR simulator, seven languages, and — deliberately — zero backend, zero AI. Some problems don't need either.</p>
         <div class="stack-chips">
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#ff3b3b,#9c1414)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>Facility lookup</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 3-2.2M19 13a10 10 0 0 0-2-1.7M12 20h.01"/></svg></span><span>Offline-first</span></div>
