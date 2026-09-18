@@ -364,7 +364,7 @@
   .badge .s{margin-top:4px;font-size:12.5px;color:var(--text-faint);}
 
   /* contact — cinematic closing scene */
-  .contact-scene{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:none;padding:80px 24px;background:var(--bg);}
+  .contact-scene{position:relative;min-height:72vh;min-height:72dvh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:none;padding:100px 24px;background:var(--bg);}
   #contactCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;filter:saturate(1.2) contrast(1.05);}
   .contact-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 620px 460px at 50% 50%, rgba(var(--bg-rgb),.62), transparent 72%);pointer-events:none;}
   .contact{text-align:center;position:relative;z-index:2;max-width:640px;margin:0 auto;}
@@ -648,6 +648,7 @@
           <div class="frame"><img src="manu-zakaria.jpeg" alt="Abhimanyu Kumar with Manu Zacharia"></div>
           <figcaption>With <b>Manu Zacharia</b> — Information Security Evangelist, c0c0n conference &amp; PGCP-ITISS mentor</figcaption>
         </figure>
+        <p style="margin-top:14px;font-size:13.5px;line-height:1.55;color:var(--text-faint);max-width:280px;">Founder of <b style="color:var(--text-dim)">c0c0n</b>, India's international hacking &amp; information security conference, and creator of Matriux — one of Asia's first penetration-testing distros. Ex-Indian Air Force, 20+ years in the field. His push to think offense-first shaped how I approach defense.</p>
       </div>
       <div class="reveal">
         <p>Cybersecurity-focused IT professional with 12+ months of industry experience in infrastructure, network security, and SOC operations, and a completed <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune. I build DevSecOps CI/CD pipelines with real deployed tooling — secret detection, SAST, container and DAST scanning, policy-as-code gates, and AI-assisted triage — from architecture to live cloud deployment.</p>
@@ -869,15 +870,14 @@
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
 
-    // dark/light theme toggle — dark is the default; light is opt-in and
-    // remembered per-visitor. The 3D scenes (hero + contact) also switch,
-    // via an 'ak:theme-changed' event the Three.js script listens for.
+    // dark/light theme toggle — every page load always starts dark; light is
+    // a session-only choice that resets on refresh, never remembered. The 3D
+    // scenes (hero + contact) also switch, via an 'ak:theme-changed' event
+    // the Three.js script listens for.
     (function(){
       var toggle = document.getElementById('themeToggle');
       if(!toggle) return;
       var root = document.documentElement;
-      var saved = null;
-      try{ saved = localStorage.getItem('ak-theme'); }catch(e){}
       function apply(theme){
         if(theme === 'light'){
           root.setAttribute('data-theme','light');
@@ -890,17 +890,13 @@
         }
         document.dispatchEvent(new CustomEvent('ak:theme-changed'));
       }
-      apply(saved === 'light' ? 'light' : 'dark');
+      apply('dark');
       toggle.addEventListener('click', function(){
         var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        function go(){
-          apply(next);
-          try{ localStorage.setItem('ak-theme', next); }catch(e){}
-        }
         if(!reduced && document.startViewTransition){
-          document.startViewTransition(go);
+          document.startViewTransition(function(){ apply(next); });
         } else {
-          go();
+          apply(next);
         }
       });
     })();
