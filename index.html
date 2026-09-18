@@ -171,8 +171,7 @@
      the value prop, not the name, is what a first-time visitor should see first */
   .hero-line-build{font-size:clamp(20px,3vw,34px);font-weight:600;color:var(--text-dim);letter-spacing:-.01em;margin-bottom:4px;}
   .hero-line-secure{font-size:clamp(30px,8vw,104px);font-weight:800;line-height:1.04;overflow-wrap:break-word;}
-  .hero-name-line{margin-top:20px;font-family:"JetBrains Mono",monospace;font-size:15px;color:var(--text-faint);letter-spacing:.01em;}
-  .hero-name-line b{color:var(--text-dim);font-weight:700;}
+  .hero-name-line{margin:0 0 8px;font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.005em;color:var(--text);}
   .hero-sub{font-size:18px;color:var(--text-dim);max-width:56ch;margin-top:14px;}
   .hero-capabilities{margin-top:10px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-faint);letter-spacing:.03em;}
   .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
@@ -214,11 +213,11 @@
   @keyframes heroIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
   @keyframes wipeReveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 -10% 0 0);}}
   @keyframes secureGlow{0%{filter:drop-shadow(0 0 0 rgba(var(--a-rgb),0));}45%{filter:drop-shadow(0 0 16px rgba(var(--a-rgb),.6));}100%{filter:drop-shadow(0 0 0 rgba(var(--a-rgb),0));}}
-  .hero-inner .eyebrow{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .05s;}
+  .hero-name-line{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .02s;}
+  .hero-inner .eyebrow{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .14s;}
   .hero-title .line{display:block;}
-  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .16s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .16s;}
-  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .4s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .4s, secureGlow 1.3s ease-out both .4s;}
-  .hero-name-line{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .58s;}
+  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .26s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .26s;}
+  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .46s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .46s, secureGlow 1.3s ease-out both .46s;}
   .hero-sub{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .68s;}
   .hero-capabilities{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .76s;}
   .hero-cta{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .86s;}
@@ -617,12 +616,12 @@
     <div class="cine-scene" id="sceneA">
       <div class="hero-inner">
         <div class="hero-avatar"><img src="avatar.jpeg" alt="Abhimanyu Kumar"></div>
+        <p class="hero-name-line"><b>Abhimanyu Kumar</b></p>
         <span class="eyebrow">DevSecOps Architect · CI/CD Security · Cloud</span>
         <h1 class="hero-title">
           <span class="line hero-line-build">I build</span>
           <span class="line hero-line-secure grad-text">secure <span id="heroCycleWord">systems.</span></span>
         </h1>
-        <p class="hero-name-line"><b>Abhimanyu Kumar</b> — DevSecOps Architect</p>
         <p class="hero-sub">Before automating anything, I spent a year hardening a real production network by hand. That's where everything below actually comes from.</p>
         <p class="hero-capabilities">CI/CD Security · Cloud Infrastructure · Automation · Security Engineering</p>
         <div class="hero-cta">
