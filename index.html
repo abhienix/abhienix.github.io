@@ -167,15 +167,8 @@
   .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.12em;color:var(--a);text-transform:uppercase;}
   .hero-title{font-size:clamp(48px,9vw,104px);line-height:.98;letter-spacing:-.02em;margin-top:18px;}
   .hero-title .line{display:block;}
-  /* "I build" is a small lead-in; "secure X." is the dominant punchline —
-     the value prop, not the name, is what a first-time visitor should see first */
-  .hero-line-build{font-size:clamp(20px,3vw,34px);font-weight:600;color:var(--text-dim);letter-spacing:-.01em;margin-bottom:4px;}
-  .hero-line-secure{font-size:clamp(30px,8vw,104px);font-weight:800;line-height:1.04;overflow-wrap:break-word;}
-  .hero-name-line{margin:0 0 8px;font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(20px,3vw,28px);font-weight:800;letter-spacing:-.005em;color:var(--text);}
-  .hero-sub{font-size:18px;color:var(--text-dim);max-width:56ch;margin-top:14px;}
-  .hero-capabilities{margin-top:10px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-faint);letter-spacing:.03em;}
+  .hero-sub{font-size:18px;color:var(--text-dim);max-width:56ch;margin-top:22px;}
   .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
-  #heroCycleWord{transition:opacity .35s ease;}
   .btn{
     display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:99px;font-size:14.5px;font-weight:600;
     transition:transform .2s ease;
@@ -212,18 +205,15 @@
      without splitting into letter spans, so it can't conflict with the gradient text. */
   @keyframes heroIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
   @keyframes wipeReveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 -10% 0 0);}}
-  @keyframes secureGlow{0%{filter:drop-shadow(0 0 0 rgba(var(--a-rgb),0));}45%{filter:drop-shadow(0 0 16px rgba(var(--a-rgb),.6));}100%{filter:drop-shadow(0 0 0 rgba(var(--a-rgb),0));}}
-  .hero-name-line{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .02s;}
-  .hero-inner .eyebrow{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .14s;}
+  .hero-inner .eyebrow{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .05s;}
   .hero-title .line{display:block;}
-  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .26s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .26s;}
-  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .46s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .46s, secureGlow 1.3s ease-out both .46s;}
-  .hero-sub{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .68s;}
-  .hero-capabilities{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .76s;}
-  .hero-cta{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .86s;}
-  .scroll-cue{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .96s;}
+  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .15s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .15s;}
+  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .38s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .38s;}
+  .hero-sub{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .58s;}
+  .hero-cta{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .68s;}
+  .scroll-cue{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .78s;}
   @media (prefers-reduced-motion: reduce){
-    .hero-inner .eyebrow, .hero-title .line, .hero-name-line, .hero-sub, .hero-capabilities, .hero-cta, .scroll-cue{animation:none;opacity:1;transform:none;clip-path:none;filter:none;}
+    .hero-inner .eyebrow, .hero-title .line, .hero-sub, .hero-cta, .scroll-cue{animation:none;opacity:1;transform:none;clip-path:none;}
   }
 
   /* marquee: 3D logo chips */
@@ -616,14 +606,12 @@
     <div class="cine-scene" id="sceneA">
       <div class="hero-inner">
         <div class="hero-avatar"><img src="avatar.jpeg" alt="Abhimanyu Kumar"></div>
-        <p class="hero-name-line"><b>Abhimanyu Kumar</b></p>
         <span class="eyebrow">DevSecOps Architect · CI/CD Security · Cloud</span>
         <h1 class="hero-title">
-          <span class="line hero-line-build">I build</span>
-          <span class="line hero-line-secure grad-text">secure <span id="heroCycleWord">systems.</span></span>
+          <span class="line">Abhimanyu</span>
+          <span class="line grad-text">Kumar.</span>
         </h1>
-        <p class="hero-sub">Before automating anything, I spent a year hardening a real production network by hand. That's where everything below actually comes from.</p>
-        <p class="hero-capabilities">CI/CD Security · Cloud Infrastructure · Automation · Security Engineering</p>
+        <p class="hero-sub">Before I automated anything, I spent a year hardening a real production network by hand. That's where everything below actually comes from.</p>
         <div class="hero-cta">
           <a class="btn btn-primary magnetic" href="#work">View work</a>
           <a class="btn btn-ghost magnetic" href="#contact">Get in touch</a>
@@ -1180,21 +1168,7 @@
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var hoverable = window.matchMedia && window.matchMedia('(hover: hover)').matches;
 
-    // hero headline word-cycle — subtle, slow, and off entirely under reduced
-    // motion; "systems." stays put as the stable, readable default otherwise
-    (function(){
-      var el = document.getElementById('heroCycleWord');
-      if(!el || reduced) return;
-      var words = ['systems.','pipelines.','infrastructure.','delivery.'];
-      var i = 0;
-      setInterval(function(){
-        i = (i+1) % words.length;
-        el.style.opacity = '0';
-        setTimeout(function(){ el.textContent = words[i]; el.style.opacity = '1'; }, 350);
-      }, 3200);
-    })();
-
-    // dark/light theme toggle — every page load always starts dark; light is
+// dark/light theme toggle — every page load always starts dark; light is
     // a session-only choice that resets on refresh, never remembered. The 3D
     // scenes (hero + contact) also switch, via an 'ak:theme-changed' event
     // the Three.js script listens for.
