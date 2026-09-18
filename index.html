@@ -14,10 +14,10 @@
     --text:#f4f5f8;
     --text-dim:#9aa0b0;
     --text-faint:#5c6272;
-    --a:#5eead4;
-    --b:#ff5fa8;
-    --a-rgb:94,234,212;
-    --b-rgb:255,95,168;
+    --a:#39ff6a;
+    --b:#ff3b3b;
+    --a-rgb:57,255,106;
+    --b-rgb:255,59,59;
     --bg-rgb:8,9,13;
     --grad: linear-gradient(100deg, var(--a), var(--b));
     --nav-fade-strong: rgba(8,9,13,.96);
@@ -32,13 +32,13 @@
     --text:#12141a;
     --text-dim:#454b5c;
     --text-faint:#767c8c;
-    --a:#0d9488;
-    --b:#c0266f;
-    --a-rgb:13,148,136;
-    --b-rgb:192,38,111;
+    --a:#0a8a3d;
+    --b:#c81e1e;
+    --a-rgb:10,138,61;
+    --b-rgb:200,30,30;
     --bg-rgb:246,246,243;
     --nav-fade-strong: rgba(246,246,243,.97);
-    --shimmer-hi: #0a2e2a;
+    --shimmer-hi: #052e14;
     color-scheme: light;
   }
   /* the cinematic 3D sections (hero + closing scene) now follow the light/dark
@@ -69,12 +69,6 @@
   .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .num-fx{font-variant-numeric:tabular-nums;}
 
-  .sec-num{
-    position:absolute;top:-6px;right:0;z-index:0;pointer-events:none;user-select:none;
-    font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(110px,18vw,240px);
-    line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);
-  }
-  @media (max-width:700px){.sec-num{display:none;}}
 
   .noise{
     position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.035;mix-blend-mode:overlay;
@@ -184,11 +178,11 @@
     position:absolute;top:128px;right:44px;width:112px;height:112px;z-index:3;
     animation:spinBadge 16s linear infinite;will-change:transform;
     border-radius:50%;background:radial-gradient(circle at 33% 28%, #1d222b, #0a0c10 72%);
-    box-shadow:0 10px 26px -10px rgba(0,0,0,.55), 0 0 0 1px rgba(94,234,212,.16), inset 0 1px 0 rgba(255,255,255,.07);
+    box-shadow:0 10px 26px -10px rgba(0,0,0,.55), 0 0 0 1px rgba(57,255,106,.16), inset 0 1px 0 rgba(255,255,255,.07);
   }
   .badge-spin:hover{animation-play-state:paused;}
   .badge-spin svg{width:100%;height:100%;overflow:visible;}
-  .badge-spin text{fill:#5eead4;font-family:"JetBrains Mono",monospace;text-transform:uppercase;}
+  .badge-spin text{fill:#39ff6a;font-family:"JetBrains Mono",monospace;text-transform:uppercase;}
   .badge-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
   .badge-center svg{width:26px;height:26px;color:#f4f5f8;}
   @keyframes spinBadge{to{transform:rotate(360deg);}}
@@ -263,16 +257,22 @@
   @keyframes sepSweep{from{background-position:220% 0;}to{background-position:-120% 0;}}
   section.section:last-of-type::after, section.section:last-of-type::before{display:none;}
   @media (prefers-reduced-motion: reduce){ section.section::before{animation:none;background-position:50% 0;} }
-  section.section > *:not(.sec-num){position:relative;z-index:1;}
+  section.section > *{position:relative;z-index:1;}
   h2.h{font-size:clamp(30px,4.4vw,46px);letter-spacing:-.015em;margin-top:14px;}
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
   .grid-2-about{grid-template-columns:240px 1fr;}
-  .about-photo{margin-top:0;border-radius:16px;overflow:hidden;border:1px solid var(--border);max-width:240px;}
-  .about-photo .frame{width:100%;aspect-ratio:4/5;overflow:hidden;}
+  .about-photo{margin-top:0;border-radius:0;overflow:hidden;border-left:3px solid var(--a);max-width:240px;}
+  .about-photo .frame{width:100%;aspect-ratio:4/5;overflow:hidden;filter:grayscale(.25) contrast(1.05);}
   .about-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;}
-  .about-photo figcaption{padding:12px 14px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--text-faint);background:var(--surface);}
+  .about-photo figcaption{padding:10px 0 0 12px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-faint);border-left:3px solid var(--border);margin-left:0;}
   .about-photo figcaption b{color:var(--text-dim);font-weight:600;}
+  .about-term{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--a);letter-spacing:.02em;margin-top:14px;}
+  .about-term::before{content:'$ ';opacity:.6;}
+  .about-term::after{content:'';display:inline-block;width:7px;height:14px;background:var(--a);margin-left:6px;vertical-align:-2px;animation:termBlink 1.1s step-end infinite;}
+  @keyframes termBlink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+  @media (prefers-reduced-motion: reduce){.about-term::after{animation:none;}}
+  .about-pipeline{color:var(--a);}
   @media (max-width:760px){.grid-2{grid-template-columns:1fr;gap:34px;}}
   .grid-2 p{color:var(--text-dim);max-width:52ch;}
 
@@ -439,7 +439,7 @@
      it a plain, readable, ink-friendly fallback instead */
   @media print{
     #bgStars, .noise, .glow-cursor, #cineCanvas, #contactCanvas, .hero-scrim,
-    .contact-scrim, .badge-spin, .marquee, .sec-num, .scroll-cue,
+    .contact-scrim, .badge-spin, .marquee, .scroll-cue,
     #sceneB, nav.top .nav-cta .pulse { display:none !important; }
     html, body{ background:#fff !important; }
     body{ color:#111 !important; }
@@ -587,15 +587,15 @@
     </div></div><label>Gitleaks</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
     </div></div><label>Semgrep</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
     </div></div><label>Trivy</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg>
     </div></div><label>OWASP ZAP</label></div>
 
     <!-- duplicate set for seamless loop -->
@@ -637,15 +637,15 @@
     </div></div><label>Gitleaks</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg>
     </div></div><label>Semgrep</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
     </div></div><label>Trivy</label></div>
 
     <div class="tile"><div class="tile-float"><div class="tile-face" style="background:linear-gradient(145deg,#2a2f3a,#14171d)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg>
     </div></div><label>OWASP ZAP</label></div>
 
   </div>
@@ -654,21 +654,19 @@
 <div class="wrap">
 
   <section id="about" class="section">
-    <span class="sec-num">01</span>
-    <span class="eyebrow shimmer reveal">01 — About</span>
-    <h2 class="h reveal">From hardening real networks to hardening pipelines.</h2>
+    <div class="about-term reveal">harden(network) &gt;&gt; harden(pipeline)</div>
+    <h2 class="h reveal no-split">From hardening real networks to hardening <span class="about-pipeline">pipelines</span>.</h2>
     <div class="grid-2 grid-2-about">
       <div class="reveal">
         <figure class="about-photo">
           <div class="frame"><img src="manu-zakaria.jpeg" alt="Abhimanyu Kumar with Manu Zacharia"></div>
-          <figcaption>With <b>Manu Zacharia</b> — Information Security Evangelist, c0c0n conference &amp; PGCP-ITISS mentor</figcaption>
+          <figcaption>With <b>Manu Zacharia</b>, PGCP-ITISS mentor</figcaption>
         </figure>
-        <p style="margin-top:14px;font-size:13px;line-height:1.55;color:var(--text-faint);max-width:240px;">Founder of <b style="color:var(--text-dim)">c0c0n</b> — India's international hacking &amp; infosec conference — and creator of Matriux, one of Asia's first pentesting distros. 20+ years in the field, ex-Indian Air Force.</p>
       </div>
       <div class="reveal">
         <p>Cybersecurity-focused IT professional with 12+ months of industry experience in infrastructure, network security, and SOC operations, and a completed <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune. I build DevSecOps CI/CD pipelines with real deployed tooling — secret detection, SAST, container and DAST scanning, policy-as-code gates, and AI-assisted triage — from architecture to live cloud deployment.</p>
         <p>Before that, I spent a year as an IT Executive hardening a company's actual production network for 30+ users — segmentation, Wi-Fi security, patch management, least-privilege access, backup strategy. That's the lens behind <b style="color:var(--text)">SecureFlow</b>: I've seen what happens when security gets bolted onto a pipeline after the fact instead of gated into it.</p>
-        <p>Manu Zacharia — my PGCP-ITISS mentor, pictured alongside me — pushed a simple habit into how I build: think like the attacker first, then decide what to gate. That's the instinct SecureFlow and SentryVault are both built around.</p>
+        <p><b style="color:var(--text)">Manu Zacharia</b> — founder of <b style="color:var(--text-dim)">c0c0n</b>, India's international hacking &amp; infosec conference, and creator of Matriux, one of Asia's first pentesting distros — is my PGCP-ITISS mentor. 20+ years in the field, ex-Indian Air Force, and the one who pushed a simple habit into how I build: think like the attacker first, then decide what to gate. That instinct is what SecureFlow and SentryVault are both built around.</p>
       </div>
     </div>
     <div class="stat-row reveal">
@@ -680,8 +678,7 @@
   </section>
 
   <section id="experience" class="section">
-    <span class="sec-num">02</span>
-    <span class="eyebrow shimmer reveal">02 — Experience</span>
+    <span class="eyebrow shimmer reveal">Experience</span>
     <h2 class="h reveal">Where the last two years went.</h2>
     <div class="timeline">
       <div class="t-item reveal">
@@ -704,8 +701,7 @@
   </section>
 
   <section id="work" class="section">
-    <span class="sec-num">03</span>
-    <span class="eyebrow shimmer reveal">03 — Work</span>
+    <span class="eyebrow shimmer reveal">Work</span>
     <h2 class="h reveal">Five things I actually shipped.</h2>
     <div class="work-list">
 
@@ -731,9 +727,9 @@
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2b3038,#0d1117)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span>GitHub Actions</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#d33833" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21M5.8 5.8l2.3 2.3M15.9 15.9l2.3 2.3M5.8 18.2l2.3-2.3M15.9 8.1l2.3-2.3"/></svg></span><span>Jenkins</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#f2b84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="3.2"/><path d="M10.3 12.7L19 4"/><path d="M15.5 8.2l2.3 2.3"/><path d="M18 5.7l2.3 2.3"/></svg></span><span>Gitleaks</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></span><span>Semgrep</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span>Trivy</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg></span><span>OWASP ZAP</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></svg></span><span>Semgrep</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span>Trivy</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></svg></span><span>OWASP ZAP</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2496ED,#0b5ea8)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M2 14c0 3 2.5 5 6 5h6c4 0 8-2 8-7-1 .6-2 .8-3 .6"/></svg></span><span>Docker</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#05c7a1,#038a70)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span>FastAPI</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#1b2735,#0c131c)"><svg viewBox="0 0 24 24" fill="none" stroke="#61dafb" stroke-width="1.5"><circle cx="12" cy="12" r="1.8" fill="#61dafb" stroke="none"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg></span><span>React</span></div>
@@ -767,15 +763,15 @@
             <text class="fl-label" x="314" y="76" text-anchor="middle">GITLEAKS</text>
 
             <rect x="429" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
-            <g transform="translate(446,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></g>
+            <g transform="translate(446,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/></g>
             <text class="fl-label" x="446" y="76" text-anchor="middle">SEMGREP</text>
 
             <rect x="561" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
-            <g transform="translate(578,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></g>
+            <g transform="translate(578,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></g>
             <text class="fl-label" x="578" y="76" text-anchor="middle">TRIVY</text>
 
             <rect x="693" y="15" width="34" height="34" rx="10" fill="url(#fgDark)"/>
-            <g transform="translate(710,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></g>
+            <g transform="translate(710,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="13" rx="5" ry="6"/><path d="M9 8l-2-2M15 8l2-2M7 13H3M21 13h-4M9 18l-2 2M15 18l2 2M8 10h8"/></g>
             <text class="fl-label" x="710" y="76" text-anchor="middle">OWASP ZAP</text>
 
             <!-- row 2: build, serve, store, ai, deploy -->
@@ -826,13 +822,13 @@
           <div><dt>Response</dt><dd>A Python SOAR script auto-quarantines offending IPs via iptables the moment an alert crosses High/Critical severity.</dd></div>
         </dl>
         <div class="stack-chips">
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>Wazuh SIEM</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>Wazuh SIEM</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#f2b84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span><span>Coraza WAF</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.5" opacity=".55"/><circle cx="12" cy="12" r="10" opacity=".3"/></svg></span><span>Suricata NIDS</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.5" opacity=".55"/><circle cx="12" cy="12" r="10" opacity=".3"/></svg></span><span>Suricata NIDS</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#3776AB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4L4 12l4 8"/><path d="M16 4l4 8-4 8"/></svg></span><span>Python</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M9 4v6M15 10v5M9 15v5"/></svg></span><span>iptables</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="2.6"/><path d="M5 5v14c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V5"/><path d="M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></svg></span><span>MySQL / PostgreSQL</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></svg></span><span>Caddy</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></svg></span><span>Caddy</span></div>
         </div>
         <div class="flow-panel">
           <svg class="flow-diagram" viewBox="0 0 760 92" fill="none" aria-hidden="true">
@@ -843,7 +839,7 @@
             <path class="fl-line" d="M50,32 L710,32"/>
 
             <rect x="33" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
-            <g transform="translate(50,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></g>
+            <g transform="translate(50,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></g>
             <text class="fl-label" x="50" y="76" text-anchor="middle">CADDY</text>
 
             <rect x="143" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
@@ -851,11 +847,11 @@
             <text class="fl-label" x="160" y="76" text-anchor="middle">CORAZA</text>
 
             <rect x="253" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
-            <g transform="translate(270,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.5" opacity=".55"/><circle cx="12" cy="12" r="10" opacity=".3"/></g>
+            <g transform="translate(270,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="6.5" opacity=".55"/><circle cx="12" cy="12" r="10" opacity=".3"/></g>
             <text class="fl-label" x="270" y="76" text-anchor="middle">SURICATA</text>
 
             <rect x="363" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
-            <g transform="translate(380,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
+            <g transform="translate(380,32) scale(0.8) translate(-12,-12)" fill="none" stroke="#39ff6a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></g>
             <text class="fl-label" x="380" y="76" text-anchor="middle">WAZUH</text>
 
             <rect x="473" y="15" width="34" height="34" rx="10" fill="url(#sgDark)"/>
@@ -899,8 +895,8 @@
         <div class="tag-strip">Hybrid phishing &amp; threat analysis · MCA final year</div>
         <p>A client-side heuristic engine (Levenshtein typo-squat detection, locale-aware OCR) catches most attempts at ~0ms; ambiguous cases escalate to Groq/Llama 3.3 70B — cutting API cost by up to 80%.</p>
         <div class="stack-chips">
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#5eead4,#0f8f7c)"><svg viewBox="0 0 24 24" fill="#04110e"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span>Groq / Llama 3.3</span></div>
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff5fa8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>OCR</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="#04110e"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span>Groq / Llama 3.3</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff3b3b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><span>OCR</span></div>
         </div>
         <a class="card-link" href="https://ai-red-flag-detector-blush.vercel.app/" target="_blank" rel="noopener">Live ↗</a>
         <a class="card-link" href="https://github.com/abhienix/AI-red-flag-detector" target="_blank" rel="noopener" style="margin-left:8px;">Repo ↗</a>
@@ -911,7 +907,7 @@
         <div class="tag-strip">Offline rural healthcare triage · BCA final year</div>
         <p>Worst-first symptom triage (RED checked before YELLOW/GREEN), GPS SOS over SMS, a WHO-tempo CPR metronome, a 2G IVR simulator, 7 languages — deliberately zero backend, zero AI.</p>
         <div class="stack-chips">
-          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#ff5fa8,#b12d6e)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>Facility lookup</span></div>
+          <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#ff3b3b,#9c1414)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>Facility lookup</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 3-2.2M19 13a10 10 0 0 0-2-1.7M12 20h.01"/></svg></span><span>Offline-first</span></div>
         </div>
         <a class="card-link" href="https://github.com/abhienix/medhelp-symptom-navigator" target="_blank" rel="noopener">Repo ↗</a>
@@ -921,8 +917,7 @@
   </section>
 
   <section id="certs" class="section">
-    <span class="sec-num">04</span>
-    <span class="eyebrow shimmer reveal">04 — Certifications &amp; Education</span>
+    <span class="eyebrow shimmer reveal">Certifications &amp; Education</span>
     <h2 class="h reveal">On paper, too.</h2>
     <div class="badge-grid">
       <div class="badge reveal">
@@ -946,11 +941,11 @@
         <div><div class="k">Job Simulation</div><div class="v">Cybersecurity Job Simulation</div><div class="s">Mastercard / Forage</div></div>
       </div>
       <div class="badge reveal">
-        <div class="icon-tile" style="background:linear-gradient(145deg,#5eead4,#0f8f7c)"><svg viewBox="0 0 24 24" fill="none" stroke="#04110e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+        <div class="icon-tile" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="none" stroke="#04110e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
         <div><div class="k">Postgraduate</div><div class="v">PGCP-ITISS</div><div class="s">C-DAC IACSD, Pune · Completed 2026 · 80%</div></div>
       </div>
       <div class="badge reveal">
-        <div class="icon-tile" style="background:linear-gradient(145deg,#ff5fa8,#b12d6e)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+        <div class="icon-tile" style="background:linear-gradient(145deg,#ff3b3b,#9c1414)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
         <div><div class="k">Master's</div><div class="v">MCA</div><div class="s">Marwari College Ranchi · 2024 · 73.25%</div></div>
       </div>
       <div class="badge reveal">
@@ -966,7 +961,7 @@
   <canvas id="contactCanvas" aria-hidden="true"></canvas>
   <div class="contact-scrim" aria-hidden="true"></div>
   <div class="contact">
-    <span class="eyebrow shimmer reveal">05 — Contact</span>
+    <span class="eyebrow shimmer reveal">Contact</span>
     <h2 class="reveal grad-text">Let's build something secure.</h2>
     <a class="btn btn-primary magnetic email-copy" href="mailto:abhimanyu9272@gmail.com" data-email="abhimanyu9272@gmail.com">Say hello →</a>
     <div class="social-row reveal">
@@ -979,11 +974,11 @@
         linkedin.com/in/abhimanyu-sec
       </a>
       <a class="social-chip email-copy" href="mailto:abhimanyu9272@gmail.com" data-email="abhimanyu9272@gmail.com">
-        <span class="ico" style="background:linear-gradient(145deg,#5eead4,#0f8f7c)"><svg viewBox="0 0 24 24" fill="none" stroke="#04110e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+        <span class="ico" style="background:linear-gradient(145deg,#39ff6a,#0a8a3d)"><svg viewBox="0 0 24 24" fill="none" stroke="#04110e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
         abhimanyu9272@gmail.com
       </a>
       <a class="social-chip" href="tel:+916203962085">
-        <span class="ico" style="background:linear-gradient(145deg,#ff5fa8,#b12d6e)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 8.5 6.5 15 15 15l3-3.5-5-3-2 2c-2-1-4-3-5-5l2-2-3-5z"/></svg></span>
+        <span class="ico" style="background:linear-gradient(145deg,#ff3b3b,#9c1414)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 8.5 6.5 15 15 15l3-3.5-5-3-2 2c-2-1-4-3-5-5l2-2-3-5z"/></svg></span>
         +91 62039 62085
       </a>
     </div>
@@ -1106,7 +1101,7 @@
           s.style.opacity='1'; s.style.transform='none';
         });
       }
-      var textFxEls = document.querySelectorAll('h2.h:not(.grad-text), .contact h2:not(.grad-text), .card h3:not(.grad-text), .more-card h4:not(.grad-text)');
+      var textFxEls = document.querySelectorAll('h2.h:not(.grad-text):not(.no-split), .contact h2:not(.grad-text), .card h3:not(.grad-text), .more-card h4:not(.grad-text)');
       textFxEls.forEach(function(el){ splitLetters(el); });
       if('IntersectionObserver' in window){
         var ioText = new IntersectionObserver(function(entries){
@@ -1264,8 +1259,8 @@
       // the globe/sphere point-dots also go dark-ink in light mode (crisper against
       // a light page than pale teal specks) — only the pink ring stays as accent color.
       return isLightTheme()
-        ? { star:0x6b7280, dot:0x1c2029, teal:0x0d9488, pink:0xc0266f, boxBase:0x1c2029, floor:0x14171c, ambient:0xffffff }
-        : { star:0xffffff, dot:0x5eead4, teal:0x5eead4, pink:0xff5fa8, boxBase:0x14171d, floor:0x0c0e14, ambient:0x40405a };
+        ? { star:0x6b7280, dot:0x1c2029, teal:0x0a8a3d, pink:0xc81e1e, boxBase:0x1c2029, floor:0x14171c, ambient:0xffffff }
+        : { star:0xffffff, dot:0x39ff6a, teal:0x39ff6a, pink:0xff3b3b, boxBase:0x14171d, floor:0x0c0e14, ambient:0x40405a };
     }
 
     // cinematic scroll intro — a wireframe globe that dissolves into a glowing
