@@ -58,7 +58,6 @@
     position:relative;
     transition:background-color .4s ease, color .4s ease;
   }
-  [data-theme="light"] #bgStars{opacity:0;}
   [data-theme="light"] .noise{opacity:.02;}
   ::selection{background:var(--a);color:#03231e;}
   a{color:inherit;text-decoration:none;}
@@ -901,19 +900,25 @@
     })();
 
     // a faint drifting starfield fixed behind the whole page, so every section —
-    // not just the cinematic intro — reads as part of the same night-sky world
+    // not just the cinematic intro — reads as part of the same living world.
+    // It follows the theme (light dots on dark, dark dots on light) and drifts
+    // very slightly toward the cursor so it reads as alive, not wallpaper.
     var bgCv = document.getElementById('bgStars');
     if(bgCv){
       var bgx = bgCv.getContext('2d');
       var bgw, bgh, bgdpr = Math.min(window.devicePixelRatio||1, 2);
       var bgStars = [];
+      var bgmx = 0, bgmy = 0;
+      window.addEventListener('mousemove', function(e){
+        bgmx = (e.clientX/innerWidth - 0.5); bgmy = (e.clientY/innerHeight - 0.5);
+      });
       function resizeBg(){
         bgw = innerWidth; bgh = innerHeight;
         bgCv.width = bgw*bgdpr; bgCv.height = bgh*bgdpr;
         bgx.setTransform(bgdpr,0,0,bgdpr,0,0);
         if(!bgStars.length){
           for(var i=0;i<90;i++){
-            bgStars.push({ x:Math.random()*bgw, y:Math.random()*bgh, r:Math.random()*1.2+.3, s:Math.random()*.15+.03, o:Math.random()*.5+.15 });
+            bgStars.push({ x:Math.random()*bgw, y:Math.random()*bgh, r:Math.random()*1.2+.3, s:Math.random()*.15+.03, o:Math.random()*.5+.15, depth:Math.random()*.6+.4 });
           }
         }
       }
@@ -921,10 +926,14 @@
       window.addEventListener('resize', resizeBg);
       function drawBg(){
         bgx.clearRect(0,0,bgw,bgh);
+        var light = document.documentElement.getAttribute('data-theme') === 'light';
+        var rgb = light ? '34,39,50' : '255,255,255';
+        var mul = light ? .7 : 1;
         bgStars.forEach(function(s){
+          var px = s.x + bgmx*22*s.depth, py = s.y + bgmy*22*s.depth;
           bgx.beginPath();
-          bgx.fillStyle = 'rgba(255,255,255,'+s.o+')';
-          bgx.arc(s.x,s.y,s.r,0,Math.PI*2); bgx.fill();
+          bgx.fillStyle = 'rgba('+rgb+','+(s.o*mul)+')';
+          bgx.arc(px,py,s.r,0,Math.PI*2); bgx.fill();
           if(!reduced){ s.y += s.s; if(s.y>bgh) s.y=0; }
         });
       }
