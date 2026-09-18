@@ -348,6 +348,13 @@
     opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;white-space:nowrap;
   }
   .copy-toast.show{opacity:1;transform:translate(-50%,0);}
+
+  .back-to-top{
+    display:inline-flex;align-items:center;gap:6px;margin-top:44px;
+    font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text-faint);
+    transition:color .2s ease, transform .2s ease;
+  }
+  .back-to-top:hover{color:var(--a);transform:translateY(-2px);}
   .social-row a:hover{color:var(--text);text-decoration:underline;}
 
   footer{padding:34px 24px 50px;text-align:center;color:var(--text-faint);font-size:12px;font-family:"JetBrains Mono",monospace;}
@@ -399,7 +406,7 @@
 <div class="noise" aria-hidden="true"></div>
 <div class="glow-cursor" id="glowCursor" aria-hidden="true"></div>
 
-<nav class="top">
+<nav class="top" id="top">
   <div class="logo">AK<span style="color:var(--a)">.</span></div>
   <div class="nav-links">
     <a href="#about">About</a>
@@ -781,6 +788,7 @@
       </a>
     </div>
     <div class="copy-toast" id="copyToast">Email copied — abhimanyu9272@gmail.com</div>
+    <a class="back-to-top" href="#top">↑ Back to top</a>
   </div>
 </section>
 
@@ -857,7 +865,7 @@
           s.style.opacity='1'; s.style.transform='none';
         });
       }
-      var textFxEls = document.querySelectorAll('h2.h, .contact h2, .card h3, .more-card h4');
+      var textFxEls = document.querySelectorAll('h2.h:not(.grad-text), .contact h2:not(.grad-text), .card h3:not(.grad-text), .more-card h4:not(.grad-text)');
       textFxEls.forEach(function(el){ splitLetters(el); });
       if('IntersectionObserver' in window){
         var ioText = new IntersectionObserver(function(entries){
