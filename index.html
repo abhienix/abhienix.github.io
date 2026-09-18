@@ -160,16 +160,20 @@
   @media (prefers-reduced-motion: reduce){.badge-spin{animation:none;}}
   @media (max-width:900px){.badge-spin{display:none;}}
 
-  /* hero entrance: CSS-only, never depends on JS/observer so the hero is never blank */
+  /* hero entrance: CSS-only, never depends on JS/observer so the hero is never blank.
+     The name lines also get a left-to-right clip-path wipe — a proper "reveal"
+     without splitting into letter spans, so it can't conflict with the gradient text. */
   @keyframes heroIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+  @keyframes wipeReveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 -10% 0 0);}}
   .hero-inner .eyebrow{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .05s;}
-  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .15s;}
-  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .25s;}
-  .hero-sub{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .35s;}
-  .hero-cta{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .45s;}
-  .scroll-cue{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .55s;}
+  .hero-title .line{display:block;}
+  .hero-title .line:nth-child(1){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .15s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .15s;}
+  .hero-title .line:nth-child(2){animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .38s, wipeReveal .8s cubic-bezier(.65,0,.35,1) both .38s;}
+  .hero-sub{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .58s;}
+  .hero-cta{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .68s;}
+  .scroll-cue{animation:heroIn .7s cubic-bezier(.2,.8,.2,1) both .78s;}
   @media (prefers-reduced-motion: reduce){
-    .hero-inner .eyebrow, .hero-title .line, .hero-sub, .hero-cta, .scroll-cue{animation:none;opacity:1;transform:none;}
+    .hero-inner .eyebrow, .hero-title .line, .hero-sub, .hero-cta, .scroll-cue{animation:none;opacity:1;transform:none;clip-path:none;}
   }
 
   /* marquee: 3D logo chips */
