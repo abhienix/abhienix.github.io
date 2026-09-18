@@ -589,7 +589,7 @@
           <span class="line" data-glitch="Abhimanyu">Abhimanyu</span>
           <span class="line grad-text" data-glitch="Kumar.">Kumar.</span>
         </h1>
-        <p class="hero-sub">I hardened a real production network before I ever wrote a pipeline script. Everything below comes from that, not a course I took.</p>
+        <p class="hero-sub">Before I automated anything, I spent a year hardening a real production network by hand. That's where everything below actually comes from.</p>
         <div class="hero-cta">
           <a class="btn btn-primary magnetic" href="#work">View work</a>
           <a class="btn btn-ghost magnetic" href="#contact">Get in touch</a>
@@ -603,7 +603,7 @@
       <div class="hero-inner">
         <span class="eyebrow">How I work</span>
         <h1 class="hero-title" style="font-size:clamp(32px,6vw,68px);">Security gated in.<br><span class="grad-text">Not bolted on.</span></h1>
-        <p class="hero-sub">Check first, trust later. That's the instinct I bring to every pipeline I build — a scanner is a gate, not a formality bolted on at the end.</p>
+        <p class="hero-sub">That habit carried over into how I build pipelines now. A scanner isn't there to tick a box — it decides whether the deploy actually happens.</p>
         <div class="hero-cta">
           <a class="btn btn-ghost magnetic" href="#work">See how ↓</a>
         </div>
@@ -730,9 +730,9 @@
         </figure>
       </div>
       <div class="reveal">
-        <p>I've spent 12+ months in infrastructure, network security, and SOC work, and I recently finished a <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD, Pune. These days I build DevSecOps pipelines — secret detection, SAST, container and DAST scanning, policy-as-code gates, AI-assisted triage — and I take them all the way from a diagram to something actually running in the cloud.</p>
-        <p>Before any of that, I was the IT Executive hardening an actual production network for 30-plus people — segmentation, Wi-Fi security, patch management, least-privilege access, the backup strategy nobody thinks about until it's needed. That year is where <b style="color:var(--text)">SecureFlow</b> comes from. I've watched what happens when security gets bolted onto a pipeline after the fact instead of built into it, and I'd rather just build the gate.</p>
-        <p class="about-aside">My PGCP-ITISS mentor is <b style="color:var(--text)">Manu Zacharia</b>. He founded <b style="color:var(--text-dim)">c0c0n</b> — India's international hacking and infosec conference — and built Matriux, one of Asia's first penetration-testing distros. He served in the Indian Air Force before any of that, and he's been in this field for 20+ years since. One habit of his stuck with me: think like the attacker first, then decide what to gate. You'll see that in both SecureFlow and SentryVault.</p>
+        <p>I've spent 12+ months working in infrastructure, network security, and SOC operations, and I just finished a <b style="color:var(--text)">PGCP-ITISS</b> at C-DAC IACSD in Pune. Right now most of my time goes into building DevSecOps pipelines that actually get deployed — wiring up secret detection, SAST, container and DAST scanning, policy gates, and AI-assisted triage, then following it through to something running in the cloud instead of leaving it as a diagram.</p>
+        <p>Before that, I was the IT Executive responsible for hardening a real production network for over thirty people — segmentation, Wi-Fi security, patch management, least-privilege access, and the kind of backup strategy nobody appreciates until they need it. SecureFlow grew directly out of that year. I'd already seen what happens when security gets added to a pipeline after the fact, so I decided to build the gate myself instead.</p>
+        <p class="about-aside">My PGCP-ITISS mentor is Manu Zacharia. He founded c0c0n, India's international hacking and infosec conference, and built Matriux, one of Asia's first penetration-testing distributions. Before any of that he served in the Indian Air Force, and he's been in this field for over twenty years since. One habit of his stuck with me: think like the attacker first, then decide what to gate. It shows up in both SecureFlow and SentryVault.</p>
       </div>
     </div>
     <div class="stat-row reveal">
@@ -783,7 +783,7 @@
             <a class="card-link" href="https://github.com/abhienix/SecureFlow" target="_blank" rel="noopener">Repo ↗</a>
           </div>
         </div>
-        <p class="desc">Most teams bolt security scanning onto CI/CD as an afterthought, or drop it the moment it slows a release down. SecureFlow gates it into the pipeline from the start — I've pushed it through 150+ test runs to make sure that actually holds up, not just looks good in a demo.</p>
+        <p class="desc">Most teams treat security scanning as an afterthought in CI/CD, or cut it the moment it slows a release down. I built SecureFlow to gate it into the pipeline from day one, and ran it through more than 150 test pipeline executions to make sure it holds up under real use, not just in a demo.</p>
         <div class="proj-metrics">
           <div class="pm"><b>150+</b><span>Test pipeline runs</span></div>
           <div class="pm"><b>14</b><span>Tools chained</span></div>
@@ -874,7 +874,7 @@
           </div>
           <a class="card-link" href="https://github.com/abhienix/SentryVault" target="_blank" rel="noopener">Repo ↗</a>
         </div>
-        <p class="desc">Most security portfolios just show you a scanner. I wanted to show you what that scanner is actually defending — so this is a production-style, segmented multi-VM DMZ, built to detect and react to a real attack instead of describing one in a slide.</p>
+        <p class="desc">Most security portfolios just show a scanner running. I wanted to show what it's actually defending, so this is a production-style, segmented multi-VM DMZ built to detect and react to a real attack — not describe one in a slide.</p>
         <div class="proj-metrics">
           <div class="pm"><b>8</b><span>Tools chained</span></div>
           <div class="pm"><b>3</b><span>Layers: perimeter/detection/response</span></div>
