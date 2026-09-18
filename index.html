@@ -241,6 +241,13 @@
   .reveal.in{opacity:1;transform:none;}
   @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none;}}
 
+  /* section-to-section crossfade — same fade+shift feel as the hero's scene
+     transition, but scroll-continuous (fades back out on the way past) and
+     never pins or hides content, since these sections are read, not watched */
+  .sect-fade{opacity:0;transform:translateY(46px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);}
+  .sect-fade.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){.sect-fade{opacity:1;transform:none;transition:none;}}
+
   section.section{position:relative;padding:110px 0;overflow:hidden;}
   section.section::after{
     content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
@@ -341,7 +348,16 @@
   .stack-chip .ico svg{width:13px;height:13px;color:#fff;}
   .stack-chip span{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-dim);white-space:nowrap;}
 
-  .proj-viz{width:100%;height:64px;border-radius:10px;margin-top:20px;display:block;background:rgba(255,255,255,.025);border:1px solid var(--border);}
+  .flow-panel{width:100%;border-radius:10px;margin-top:20px;padding:6px 16px;background:rgba(255,255,255,.025);border:1px solid var(--border);}
+  .flow-diagram{width:100%;height:auto;display:block;}
+  .flow-diagram .fl-line{stroke:var(--border);stroke-width:2;}
+  .flow-diagram .fl-node-bg{fill:var(--surface-solid);stroke:var(--border);stroke-width:1.5;}
+  .flow-diagram .fl-node-icon{stroke:var(--text-dim);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .flow-diagram .fl-node-icon-fill{fill:var(--text-dim);stroke:none;}
+  .flow-diagram .fl-label{font-family:"JetBrains Mono",monospace;font-size:9px;fill:var(--text-faint);letter-spacing:.04em;}
+  .flow-diagram .fl-pulse{fill:var(--a);}
+  .flow-diagram .fl-pulse.b{fill:var(--b);}
+  @media (prefers-reduced-motion: reduce){.flow-diagram .fl-pulse{display:none;}}
   .credit-note{margin-top:14px;font-size:12px;color:var(--text-faint);font-style:italic;}
 
   .work-sub{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;display:block;margin-top:60px;margin-bottom:6px;}
@@ -424,7 +440,7 @@
      it a plain, readable, ink-friendly fallback instead */
   @media print{
     #bgStars, .noise, .glow-cursor, #cineCanvas, #contactCanvas, .hero-scrim,
-    .contact-scrim, .badge-spin, .marquee, .proj-viz, .sec-num, .scroll-cue,
+    .contact-scrim, .badge-spin, .marquee, .sec-num, .scroll-cue,
     #sceneB, nav.top .nav-cta .pulse { display:none !important; }
     html, body{ background:#fff !important; }
     body{ color:#111 !important; }
@@ -719,7 +735,26 @@
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="2.6"/><path d="M5 5v14c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V5"/><path d="M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></svg></span><span>PostgreSQL</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#5b9bff,#2b62c9)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9.1 4.5 4.5 0 0 0 7 18z"/></svg></span><span>GCP Cloud Run</span></div>
         </div>
-        <canvas class="proj-viz" data-viz="pipeline" aria-hidden="true"></canvas>
+        <div class="flow-panel">
+          <svg class="flow-diagram" viewBox="0 0 600 80" fill="none" aria-hidden="true">
+            <path class="fl-line" d="M46,30 L554,30"/>
+            <circle class="fl-node-bg" cx="46" cy="30" r="16"/>
+            <circle cx="46" cy="30" r="4" fill="var(--a)"/>
+            <text class="fl-label" x="46" y="66" text-anchor="middle">COMMIT</text>
+            <circle class="fl-node-bg" cx="215" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(215,30)"><circle cx="-2" cy="-2" r="5"/><line x1="2" y1="2" x2="6" y2="6"/></g>
+            <text class="fl-label" x="215" y="66" text-anchor="middle">SCAN</text>
+            <circle class="fl-node-bg" cx="385" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(385,30)"><path d="M0,-7 L6,-4 V2 C6,6 3,8.5 0,9.5 C-3,8.5 -6,6 -6,2 V-4 Z"/><path d="M-3,0 L-1,2.5 L3.5,-2.5" stroke-width="1.4"/></g>
+            <text class="fl-label" x="385" y="66" text-anchor="middle">GATE</text>
+            <circle class="fl-node-bg" cx="554" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(554,30)"><path d="M0,7 V-6 M-4,-2 L0,-7 L4,-2"/></g>
+            <text class="fl-label" x="554" y="66" text-anchor="middle">DEPLOY</text>
+            <circle class="fl-pulse" r="4">
+              <animateMotion dur="3.4s" repeatCount="indefinite" calcMode="linear" path="M46,30 L554,30"/>
+            </circle>
+          </svg>
+        </div>
       </div>
 
       <div class="card reveal tilt border-trail">
@@ -744,7 +779,26 @@
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#4a86b8,#2c5478)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="7" ry="2.6"/><path d="M5 5v14c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V5"/><path d="M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></svg></span><span>MySQL / PostgreSQL</span></div>
           <div class="stack-chip"><span class="ico" style="background:linear-gradient(145deg,#2a2f3a,#14171d)"><svg viewBox="0 0 24 24" fill="none" stroke="#5eead4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 12h13m0 0l-4-4m4 4l-4 4"/></svg></span><span>Caddy</span></div>
         </div>
-        <canvas class="proj-viz" data-viz="network" aria-hidden="true"></canvas>
+        <div class="flow-panel">
+          <svg class="flow-diagram" viewBox="0 0 600 80" fill="none" aria-hidden="true">
+            <path class="fl-line" d="M46,30 L554,30"/>
+            <circle class="fl-node-bg" cx="46" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(46,30)"><circle r="6"/><path d="M-6,0 H6 M0,-6 V6 M-4.2,-4.2 A6 6 0 0 1 4.2,-4.2 M-4.2,4.2 A6 6 0 0 0 4.2,4.2" stroke-width="1.1"/></g>
+            <text class="fl-label" x="46" y="66" text-anchor="middle">TRAFFIC</text>
+            <circle class="fl-node-bg" cx="215" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(215,30)"><path d="M0,-7 L6,-4 V2 C6,6 3,8.5 0,9.5 C-3,8.5 -6,6 -6,2 V-4 Z"/></g>
+            <text class="fl-label" x="215" y="66" text-anchor="middle">PERIMETER</text>
+            <circle class="fl-node-bg" cx="385" cy="30" r="16"/>
+            <g class="fl-node-icon" transform="translate(385,30)"><ellipse rx="7" ry="4.5"/><circle r="1.8"/></g>
+            <text class="fl-label" x="385" y="66" text-anchor="middle">DETECT</text>
+            <circle class="fl-node-bg" cx="554" cy="30" r="16"/>
+            <path class="fl-node-icon-fill" transform="translate(554,30)" d="M-1,-7 L-5,2 H-1 L-2,7 L5,-2 H1 Z"/>
+            <text class="fl-label" x="554" y="66" text-anchor="middle">RESPOND</text>
+            <circle class="fl-pulse b" r="4">
+              <animateMotion dur="3.4s" repeatCount="indefinite" calcMode="linear" path="M46,30 L554,30"/>
+            </circle>
+          </svg>
+        </div>
         <p class="credit-note">Built with Tanmaysune — a two-person security lab, not a solo project.</p>
       </div>
 
@@ -1028,6 +1082,22 @@
       reveals.forEach(function(el){ io.observe(el); });
     } else {
       reveals.forEach(function(el){ el.classList.add('in'); });
+    }
+
+    // whole-section crossfade — each content section fades/shifts in as it
+    // enters the viewport and back out as it leaves, echoing the hero's
+    // scene transition without pinning anything or touching readability
+    var crossSections = document.querySelectorAll('section.section');
+    if(crossSections.length){
+      crossSections.forEach(function(s){ s.classList.add('sect-fade'); });
+      if('IntersectionObserver' in window && !reduced){
+        var ioSect = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ e.target.classList.toggle('in', e.isIntersecting); });
+        }, { threshold: .12 });
+        crossSections.forEach(function(s){ ioSect.observe(s); });
+      } else {
+        crossSections.forEach(function(s){ s.classList.add('in'); });
+      }
     }
 
     // count-up stats
@@ -1384,50 +1454,6 @@
       })();
     }
 
-    // small live canvas diagrams inside the flagship project cards —
-    // each one visualizes what that project actually does, not decoration
-    document.querySelectorAll('.proj-viz').forEach(function(cv){
-      var dpr = Math.min(window.devicePixelRatio||1, 2);
-      var w = cv.clientWidth, h = cv.clientHeight;
-      if(!w || !h) return;
-      cv.width = w*dpr; cv.height = h*dpr;
-      var ctx = cv.getContext('2d');
-      ctx.scale(dpr,dpr);
-      var t = 0, type = cv.dataset.viz;
-
-      function drawPipeline(){
-        ctx.clearRect(0,0,w,h);
-        var light = isLightTheme();
-        var n=5, pad=24, step=(w-pad*2)/(n-1), y=h/2;
-        ctx.strokeStyle= light ? 'rgba(18,20,26,.16)' : 'rgba(255,255,255,.12)'; ctx.lineWidth=2;
-        ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
-        var pos=(t*0.6)%(n-1);
-        for(var i=0;i<n;i++){
-          var x=pad+i*step, lit=Math.max(0,1-Math.abs(pos-i));
-          ctx.beginPath();
-          ctx.fillStyle = lit>0.1 ? 'rgba(94,234,212,'+(0.4+lit*0.6)+')' : (light ? 'rgba(18,20,26,.22)' : 'rgba(255,255,255,.18)');
-          ctx.arc(x,y,5+lit*3,0,Math.PI*2); ctx.fill();
-        }
-      }
-      function drawNetwork(){
-        ctx.clearRect(0,0,w,h);
-        var light = isLightTheme();
-        var nodes=[[w*0.15,h*0.3],[w*0.4,h*0.7],[w*0.65,h*0.25],[w*0.88,h*0.6]];
-        ctx.strokeStyle= light ? 'rgba(18,20,26,.18)' : 'rgba(255,255,255,.14)'; ctx.lineWidth=1.4;
-        for(var i=0;i<nodes.length-1;i++){ ctx.beginPath(); ctx.moveTo(nodes[i][0],nodes[i][1]); ctx.lineTo(nodes[i+1][0],nodes[i+1][1]); ctx.stroke(); }
-        var alertIdx = Math.floor(t*0.5)%nodes.length;
-        nodes.forEach(function(p,i){
-          var active = i===alertIdx, pulse = active ? (0.5+0.5*Math.sin(t*6)) : 0;
-          ctx.beginPath();
-          ctx.fillStyle = active ? 'rgba(255,95,168,'+(0.5+pulse*0.5)+')' : 'rgba(94,234,212,.5)';
-          ctx.arc(p[0],p[1],active?6:4,0,Math.PI*2); ctx.fill();
-        });
-      }
-      var draw = type==='pipeline'?drawPipeline : type==='network'?drawNetwork : null;
-      if(!draw) return;
-      if(reduced){ draw(); return; }
-      (function loop(){ t+=0.02; draw(); requestAnimationFrame(loop); })();
-    });
   }catch(e){}
 })();
 </script>
